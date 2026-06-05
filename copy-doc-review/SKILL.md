@@ -45,6 +45,7 @@ Section: [section heading or inferred role — e.g. Metadata, Hero, CTA, Form, F
 ```
 
 Process the full document. Note while extracting:
+- **Page type** — read the "Page type" metadata field if present (e.g. "Product or service", "Landing page", "App / product UI", "Documentation"). If absent, infer from content. This determines which checklist sections apply (see Step 2).
 - Metadata fields (page title, description, navigation placement) and whether they are complete
 - Heading levels and whether they are explicitly marked
 - CTA text and any noted destinations
@@ -60,14 +61,26 @@ Process the full document. Note while extracting:
 
 ## Step 2 — UX quality check
 
-Work through each section of the checklist (default or custom). For each item:
+### First: gate sections by doc type
 
-1. Check the extracted content to determine: **pass / fail / needs review / not applicable**
+Not every section applies to every doc. Before checking, decide which sections are **in scope** based on the page type from Step 1:
+
+- **Marketing / product / landing pages** (no interactive flows): sections 4 (Forms & Inputs), 5 (Error & Feedback States), and the interactive parts of 8 (Completeness — hover/focus/error/success/empty/loading states) are **Not applicable**. Mark them N/A and **do not** flag missing forms or error states as issues — their absence is expected.
+- **App / product UI / flow docs**: all sections apply, including Forms and Error states. Here a missing error state *is* a real gap.
+
+State which sections you are treating as N/A and why, so a reader can see it was a deliberate decision, not an oversight. When genuinely unsure whether a doc has interactive states, mark the relevant checks **needs review** rather than passing or failing them.
+
+### Then: work through each in-scope section
+
+For each checklist item:
+
+1. Check the extracted content to determine a status: **✅ pass / issue / ❓ needs review / ⬜ not applicable**
 2. Cite the specific section and text or missing element as evidence
-3. Assign severity:
-   - 🔴 **Critical** — blocks design from starting (missing required field, silent error state, undefined CTA destination)
+3. For each *issue*, assign severity:
+   - 🔴 **Critical** — blocks design from starting (missing required metadata, undefined CTA destination; for flow docs only: silent/undefined error state)
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
+4. Use **❓ needs review** for anything you genuinely cannot verify from the text alone (e.g. whether a domain mismatch is intentional, whether an unwritten state exists elsewhere in the flow). Do not force these into a pass or a severity — report them honestly in the Needs review bucket.
 
 ### Checklist sections (from default-checklist.md)
 
@@ -108,7 +121,7 @@ Load `references/report-template.md` and use it as the structure for the report.
 | Doc has many unresolved TBDs | Flag them all in the Completeness section. Note in the summary that design should not start until they are resolved. |
 | No metadata table present | Flag as a critical issue under Structure & Hierarchy. |
 | Doc is very long | Process the full document. If sections are clearly marked, process them in order and note any skipped content. |
-| No error states defined | Flag under Error & Feedback States — missing error copy is a critical gap. |
+| No error states defined | Only a gap for **app / product UI / flow docs** — there, flag under Error & Feedback States as a critical gap. For marketing/product/landing pages, mark Error & Feedback States **N/A**; do not flag (see Step 2 doc-type gate). |
 
 ---
 

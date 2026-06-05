@@ -8,11 +8,11 @@
 
 ## Summary
 
-| Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor |
-|---|---|---|---|---|
-| UX quality check | X | X | X | X |
+| Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor | ❓ Needs Review | ⬜ N/A |
+|---|---|---|---|---|---|---|
+| UX quality check | X | X | X | X | X | X |
 
-**Total issues:** N (X critical, X needs work, X minor)
+**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms, Error states — marketing page]
 
 ---
 
@@ -119,6 +119,23 @@
 
 #### 🟡 Needs Work
 - ...
+
+---
+
+## ❓ Needs review
+
+Findings that cannot be verified from the copy doc text alone and need a human to confirm. Do not force these into a pass or a severity.
+
+- **[Section: Name]** — [what's uncertain and what a reviewer should check]
+  - *Found:* "[text]" | *Question:* "[what to confirm]"
+
+---
+
+## ⬜ Not applicable
+
+Sections skipped for this doc type, with the reason (so it's clear this was deliberate).
+
+- **[Section name]** — N/A: [reason, e.g. marketing page with no interactive states]
 
 ---
 

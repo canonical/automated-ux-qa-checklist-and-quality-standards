@@ -37,6 +37,8 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ## 4. Forms and inputs
 
+> **Applies to:** docs that include a form or input flow. For marketing/product/landing pages with no form, mark this section **N/A** — do not flag the absence of a form.
+
 - [ ] Every input field has a labelled field name in the copy
 - [ ] Placeholder text is noted separately from labels and is not used as the label
 - [ ] Required fields are clearly marked
@@ -46,6 +48,8 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 ---
 
 ## 5. Error and feedback states
+
+> **Applies to:** app / product UI / flow docs. For marketing/product/landing pages with no interactive states, mark this section **N/A** — the absence of error/success/loading copy is expected and is not an issue.
 
 - [ ] Every error state in the flow has a defined message with no silent failures
 - [ ] Error messages explain what went wrong in plain language
@@ -76,7 +80,7 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ## 8. Completeness
 
-- [ ] All required states are written (default, hover/focus where copy differs, error, success, empty, loading)
+- [ ] All required states are written (default, hover/focus where copy differs, error, success, empty, loading) — *interactive states apply only to app/UI/flow docs; skip for static marketing pages*
 - [ ] All variants of a component or flow are documented
 - [ ] Microcopy (tooltips, helper text, validation messages) is included where needed
 - [ ] Any conditional copy (e.g. "if user is logged in, show X; else show Y") is clearly specified
