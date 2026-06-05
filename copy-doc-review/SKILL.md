@@ -108,6 +108,7 @@ Load `references/report-template.md` and use it as the structure for the report.
 
 1. Output the report inline in chat as markdown.
 2. **Automatically save** the report to `reports/` using the filename format `[doc-slug]-[YYYY-MM-DD].md`. Derive the slug from the document title or page URL in the metadata (lowercase, hyphens, no spaces) — e.g. `reports/canonical-ceph-2026-05-01.md`. Do not ask the user for confirmation before saving.
+   - **If a file with that name already exists** (e.g. a second review of the same doc on the same day), do **not** overwrite it. Add a run number: `[doc-slug]-[YYYY-MM-DD]-run2.md`, then `-run3.md`, and so on. This keeps every report so runs can be compared.
 3. Tell the user the report has been saved and the filename.
 4. Offer to dive deeper into any specific section or issue.
 

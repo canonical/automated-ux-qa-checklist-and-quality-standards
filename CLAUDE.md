@@ -35,7 +35,12 @@ skill-name/
 
 1. Test `copy-doc-review` against a real copy doc
 2. Refine checklists and report templates based on test results
-3. Add Jira and GitHub PR integration as optional inputs once reviews are solid
+3. Build a purpose-made test doc with a known "answer key" — a sample copy doc with a fixed
+   set of deliberately-planted issues, written down separately. This lets us *score* how
+   many issues the skill catches (e.g. 18/20) and prove it improves when we tweak it, rather
+   than eyeballing each run. Without it we can smoke-test but not measure. (Real authoring
+   effort — deferred until the skill is otherwise solid.)
+4. Add Jira and GitHub PR integration as optional inputs once reviews are solid
 
 ## Test file
 
