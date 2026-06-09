@@ -102,6 +102,12 @@ For each checklist item:
 
 Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2. Remove sections that have no findings (e.g. if no forms are present, remove Forms & Inputs entirely rather than leaving it blank).
 
+**The report itself must follow the Canonical copy style guide** (`shared/copy-style-guide-checklist.md`). Key rules for report output:
+- Use **en dashes with spaces** ( – ) for sentence breaks, not em dashes (—) or hyphens (-).
+- Use US English spelling.
+- Spell out single-figure numbers (one–nine); use digits from 10 up.
+- No gendered pronouns – use they/them.
+
 ---
 
 ## Step 4 — Deliver and save the report

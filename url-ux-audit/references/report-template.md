@@ -1,4 +1,4 @@
-# UX content audit report — live page
+# UX content audit report – live page
 
 **URL:** [page URL]
 **Date:** [today's date]
@@ -21,7 +21,7 @@
 ### Structure & hierarchy
 
 #### 🔴 Critical
-- **[Section: Name]** — [issue and why it matters]
+- **[Section: Name]** – [issue and why it matters]
   - *Found:* "[text]" | *Recommendation:* "[suggestion]"
 
 #### 🟡 Needs Work
@@ -119,7 +119,7 @@ Specific, genuine observations about content that is well done.
 
 ## 🔲 Manual checks for reviewer
 
-- [ ] **Authenticated states** — log in and check any copy that only appears after authentication
-- [ ] **JS-rendered content** — interact with the page to trigger dynamic states (errors, success messages, empty states)
-- [ ] **Keyboard navigation** — tab through the page to confirm correct focus order and accessible labels
-- [ ] **Mobile view** — resize or use device emulation to check layout and readability
+- [ ] **Authenticated states** – log in and check any copy that only appears after authentication
+- [ ] **JS-rendered content** – interact with the page to trigger dynamic states (errors, success messages, empty states)
+- [ ] **Keyboard navigation** – tab through the page to confirm correct focus order and accessible labels
+- [ ] **Mobile view** – resize or use device emulation to check layout and readability

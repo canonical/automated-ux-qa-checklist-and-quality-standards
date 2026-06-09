@@ -121,6 +121,12 @@ Work through each section of the checklist (default or custom). For each item:
 
 ## Step 4 — Write the audit report
 
+**The report itself must follow the Canonical copy style guide** (`shared/copy-style-guide-checklist.md`). Key rules for report output:
+- Use **en dashes with spaces** ( – ) for sentence breaks, not em dashes (—) or hyphens (-).
+- Use US English spelling.
+- Spell out single-figure numbers (one–nine); use digits from 10 up.
+- No gendered pronouns – use they/them.
+
 Output a structured markdown report:
 
 ```markdown

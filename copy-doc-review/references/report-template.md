@@ -1,8 +1,8 @@
-# UX content audit report — copy doc
+# UX content audit report – copy doc
 
 **Document:** [doc title or filename]
 **Date:** [today's date]
-**Note:** [omit, or note any limitations — e.g. doc was incomplete, many TBDs present]
+**Note:** [omit, or note any limitations – e.g. doc was incomplete, many TBDs present]
 
 ---
 
@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|
 | UX quality check | X | X | X | X | X | X |
 
-**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms, Error states — marketing page]
+**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms, Error states – marketing page]
 
 ---
 
@@ -21,7 +21,7 @@
 ### Structure & hierarchy
 
 #### 🔴 Critical
-- **[Section: Name]** — [issue and why it matters]
+- **[Section: Name]** – [issue and why it matters]
   - *Found:* "[text]" | *Recommendation:* "[suggestion]"
 
 #### 🟡 Needs Work
@@ -126,7 +126,7 @@
 
 Findings that cannot be verified from the copy doc text alone and need a human to confirm. Do not force these into a pass or a severity.
 
-- **[Section: Name]** — [what's uncertain and what a reviewer should check]
+- **[Section: Name]** – [what's uncertain and what a reviewer should check]
   - *Found:* "[text]" | *Question:* "[what to confirm]"
 
 ---
@@ -135,7 +135,7 @@ Findings that cannot be verified from the copy doc text alone and need a human t
 
 Sections skipped for this doc type, with the reason (so it's clear this was deliberate).
 
-- **[Section name]** — N/A: [reason, e.g. marketing page with no interactive states]
+- **[Section name]** – N/A: [reason, e.g. marketing page with no interactive states]
 
 ---
 
