@@ -87,7 +87,22 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 9. Tone and clarity
+## 9. Character limits
+
+> Reference: `shared/character-limits.md` for the full table of limits by section type.
+
+- [ ] Page title is within 60 characters
+- [ ] Page description is within 160 characters
+- [ ] Section titles are within the limit for their section type (typically 60–70 characters)
+- [ ] Supporting paragraphs are within the limit for their section type (typically 300, up to 900 for extended sections)
+- [ ] CTA button text is within 20 characters
+- [ ] CTA link/arrow text is within 60 characters
+- [ ] Data spotlight values, labels, and descriptions are within their limits (10, 20, 100 characters respectively)
+- [ ] Content flagged by the `ch:` markers in the copy doc matches the character limit specified
+
+---
+
+## 10. Tone and clarity
 
 - [ ] Copy is written in plain language appropriate to the audience
 - [ ] Sentences are scannable, not overly long or dense
@@ -96,14 +111,14 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 10. Comments and revisions
+## 11. Comments and revisions
 
 - [ ] All open comments in the doc are resolved or noted
 - [ ] All "TBD", "placeholder", or "TK" markers are flagged for resolution before design begins
 
 ---
 
-## 11. Manual checks (remind reviewer)
+## 12. Manual checks (remind reviewer)
 
 These should be completed by the reviewer:
 

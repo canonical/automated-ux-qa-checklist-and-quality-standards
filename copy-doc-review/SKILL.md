@@ -92,9 +92,10 @@ For each checklist item:
 6. Accessibility
 7. Navigation
 8. Completeness
-9. Tone & Clarity
-10. Comments & Revisions
-11. Manual Checks (include as reminders in report, not as pass/fail)
+9. Character Limits
+10. Tone & Clarity
+11. Comments & Revisions
+12. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 
