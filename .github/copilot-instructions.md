@@ -36,3 +36,4 @@ skill-name/
 1. Test `copy-doc-review` against a real copy doc
 2. Refine checklists and report templates based on test results
 3. Add Jira and GitHub PR integration as optional inputs once reviews are solid
+4. (Future) Turn the checks into a Figma plugin

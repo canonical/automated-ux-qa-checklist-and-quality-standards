@@ -41,6 +41,7 @@ skill-name/
    than eyeballing each run. Without it we can smoke-test but not measure. (Real authoring
    effort — deferred until the skill is otherwise solid.)
 4. Add Jira and GitHub PR integration as optional inputs once reviews are solid
+5. (Future) Turn the checks into a Figma plugin
 
 ## Test file
 
