@@ -12,8 +12,8 @@ description: >
 Performs a UX content quality check on a live web page by fetching its content and
 reviewing it against a UX best practice checklist.
 
-Outputs a structured markdown report organised by check type, with issues cited to
-specific page sections and elements.
+Outputs a structured markdown report organised by page section order (top to bottom), with issues cited to
+specific page sections and elements. This lets a reviewer read the report side by side with the page.
 
 ---
 
@@ -67,6 +67,13 @@ Work through each section of the checklist (default or custom). For each item:
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
 
+### Severity overrides
+
+The following should always be treated as **🔵 Minor**, regardless of what the default rules would suggest:
+
+- **Logo alt text** — missing or generic alt text on logos (e.g. company logos in partner sections). These are cosmetic, not functional accessibility gaps.
+- **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
+
 ### Checklist sections (from default-checklist.md)
 
 1. Structure & Hierarchy
@@ -83,7 +90,13 @@ Work through each section of the checklist (default or custom). For each item:
 
 ## Step 3 — Write the audit report
 
-Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2. Remove sections that have no findings (e.g. if no forms were found, remove Forms & Inputs entirely rather than leaving it blank).
+Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2.
+
+**Report ordering:** Organise issues by page section in the order they appear on the page (top to bottom), not by check category. Tag each issue with its check category in brackets (e.g. [CTAs], [Accessibility]) so the category is still visible. This lets a reviewer read the report alongside the live page without jumping around.
+
+**Passing checks:** All checks that pass should go at the bottom of the report in the "✅ What looks good" section, not interleaved with issues.
+
+Remove sections that have no findings (e.g. if no forms were found, remove Forms & Inputs entirely rather than leaving it blank).
 
 **The report itself must follow the Canonical copy style guide** (`shared/copy-style-guide-checklist.md`). Key rules for report output:
 - Use **en dashes with spaces** ( – ) for sentence breaks, not em dashes (—) or hyphens (-).

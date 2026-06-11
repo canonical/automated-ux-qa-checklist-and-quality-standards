@@ -16,12 +16,14 @@
 
 ---
 
-## UX quality check
+## Issues by page section
 
-### Structure & hierarchy
+List issues in the order they appear on the page, top to bottom. Each issue should note its check category in brackets for reference.
+
+### [Section name — e.g. Header, Nav, Hero, Main content, Form, Footer]
 
 #### 🔴 Critical
-- **[Section: Name]** – [issue and why it matters]
+- **[Check category]** – [issue and why it matters]
   - *Found:* "[text]" | *Recommendation:* "[suggestion]"
 
 #### 🟡 Needs Work
@@ -30,90 +32,11 @@
 #### 🔵 Minor
 - ...
 
-### CTAs
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Links
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Forms & inputs
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Error & feedback states
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Accessibility
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Navigation
-
-#### 🔴 Critical
-- ...
-
-#### 🟡 Needs Work
-- ...
-
-#### 🔵 Minor
-- ...
-
-### Mobile considerations
-
-#### 🔵 Flag for review
-- ...
-
 ---
 
 ## ✅ What looks good
 
 Specific, genuine observations about content that is well done.
-
----
-
-## Recommended priority order
-
-1. Fix all 🔴 Critical issues
-2. Address 🟡 Needs Work items
-3. Polish 🔵 Minor items
 
 ---
 

@@ -122,6 +122,5 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 These should be completed by the reviewer:
 
-- [ ] **Cross-reference with design intent:** confirm the copy matches the structure and intent of the related Figma file (if available)
 - [ ] **Conditional / dynamic content:** check that all branches of conditional copy are written, not just the default path
 - [ ] **Source content:** verify any copy that pulls from external sources (product docs, marketing claims) is accurate and approved

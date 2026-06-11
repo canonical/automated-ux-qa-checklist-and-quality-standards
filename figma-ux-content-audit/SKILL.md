@@ -104,6 +104,13 @@ Work through each section of the checklist (default or custom). For each item:
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
 
+### Severity overrides
+
+The following should always be treated as **🔵 Minor**, regardless of what the default rules would suggest:
+
+- **Logo alt text** — missing or generic alt text on logos (e.g. company logos in partner sections). These are cosmetic, not functional accessibility gaps.
+- **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
+
 ### Checklist sections (from default-checklist.md)
 
 1. Structure & Hierarchy
@@ -120,6 +127,10 @@ Work through each section of the checklist (default or custom). For each item:
 ---
 
 ## Step 4 — Write the audit report
+
+**Report ordering:** For Check 2 (UX quality), organise issues by frame/section in the order they appear in the Figma flow (top to bottom, left to right), not by check category. Tag each issue with its check category in brackets (e.g. [CTAs], [Accessibility]) so the category is still visible. This lets a reviewer read the report alongside the Figma file without jumping around.
+
+**Passing checks:** All checks that pass should go at the bottom of the report in the "✅ What Looks Good" section, not interleaved with issues.
 
 **The report itself must follow the Canonical copy style guide** (`shared/copy-style-guide-checklist.md`). Key rules for report output:
 - Use **en dashes with spaces** ( – ) for sentence breaks, not em dashes (—) or hyphens (-).
@@ -171,37 +182,21 @@ Output a structured markdown report:
 
 ## Check 2: UX Quality Check
 
-### Structure & Hierarchy
-#### 🔴 Critical
-- **[Frame: Name]** — [issue and why it matters]
+### Issues by page section
+
+List issues in the order they appear on the page / in the Figma flow, top to bottom. Each issue should note its check category in brackets for reference.
+
+#### [Frame / section name]
+
+##### 🔴 Critical
+- **[Check category]** – [issue and why it matters]
   - *Found:* "[text]" | *Recommendation:* "[suggestion]"
 
-#### 🟡 Needs Work
+##### 🟡 Needs Work
 - ...
 
-#### 🔵 Minor
+##### 🔵 Minor
 - ...
-
-### CTAs
-...
-
-### Links
-...
-
-### Forms & Inputs
-...
-
-### Error & Feedback States
-...
-
-### Accessibility
-...
-
-### Navigation
-...
-
-### Mobile Considerations
-...
 
 ### Designer Annotations
 List any unresolved annotations or notes left by the designer in the Figma file:
@@ -212,14 +207,6 @@ List any unresolved annotations or notes left by the designer in the Figma file:
 ## ✅ What Looks Good
 
 Specific, genuine observations about content that is well done.
-
----
-
-## Recommended Priority Order
-
-1. Fix all 🔴 Critical issues
-2. Address 🟡 Needs Work items
-3. Polish 🔵 Minor items
 
 ---
 

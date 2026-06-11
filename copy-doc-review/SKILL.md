@@ -12,8 +12,8 @@ description: >
 Performs a UX content quality check on a copy document by reviewing its content against
 a UX best practice checklist.
 
-Outputs a structured markdown report organised by check type, with issues cited to
-specific sections and elements in the document.
+Outputs a structured markdown report organised by page section order (top to bottom), with issues cited to
+specific sections and elements in the document. This lets a reviewer read the report side by side with the page.
 
 ---
 
@@ -80,6 +80,13 @@ For each checklist item:
    - 🔴 **Critical** — blocks design from starting (missing required metadata, undefined CTA destination; for flow docs only: silent/undefined error state)
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
+
+### Severity overrides
+
+The following should always be treated as **🔵 Minor**, regardless of what the default rules would suggest:
+
+- **Logo alt text** — missing or generic alt text on logos (e.g. company logos in partner sections). These are cosmetic, not functional accessibility gaps.
+- **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
 4. Use **❓ needs review** for anything you genuinely cannot verify from the text alone (e.g. whether a domain mismatch is intentional, whether an unwritten state exists elsewhere in the flow). Do not force these into a pass or a severity — report them honestly in the Needs review bucket.
 
 ### Checklist sections (from default-checklist.md)
@@ -101,7 +108,13 @@ For each checklist item:
 
 ## Step 3 — Write the audit report
 
-Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2. Remove sections that have no findings (e.g. if no forms are present, remove Forms & Inputs entirely rather than leaving it blank).
+Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2.
+
+**Report ordering:** Organise issues by page section in the order they appear in the document (top to bottom), not by check category. Tag each issue with its check category in brackets (e.g. [CTAs], [Accessibility]) so the category is still visible. This lets a reviewer read the report alongside the copy doc without jumping around.
+
+**Passing checks:** All checks that pass should go at the bottom of the report in the "✅ What looks good" section, not interleaved with issues.
+
+Remove sections that have no findings (e.g. if no forms are present, remove Forms & Inputs entirely rather than leaving it blank).
 
 **The report itself must follow the Canonical copy style guide** (`shared/copy-style-guide-checklist.md`). Key rules for report output:
 - Use **en dashes with spaces** ( – ) for sentence breaks, not em dashes (—) or hyphens (-).
@@ -118,6 +131,7 @@ Load `references/report-template.md` and use it as the structure for the report.
    - **If a file with that name already exists** (e.g. a second review of the same doc on the same day), do **not** overwrite it. Add a run number: `[doc-slug]-[YYYY-MM-DD]-run2.md`, then `-run3.md`, and so on. This keeps every report so runs can be compared.
 3. Tell the user the report has been saved and the filename.
 4. Offer to dive deeper into any specific section or issue.
+5. **Do not** suggest or request a Figma file review. The copy doc stage comes before design — there is no Figma file yet. The Figma review is a separate skill triggered later in the pipeline.
 
 ---
 
