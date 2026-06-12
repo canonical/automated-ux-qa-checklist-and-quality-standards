@@ -8,7 +8,7 @@ This repo contains three Claude skills for UX content reviews on the Canonical w
 |---|---|---|---|
 | 1. Copy doc | `copy-doc-review/` | Google Doc exported to markdown | Jira automation pings UX designer to review |
 | 2. Figma | `figma-ux-content-audit/` | Figma file URL + optional copy doc | Visual designer comments in Jira requesting UX review |
-| 3. Live/demo URL | `url-ux-audit/` | Live or demo URL | Dev opens GitHub PR, UX designer changes label to UX +1 |
+| 3. Demo | `demo-audit/` | Demo URL or GitHub PR URL | Dev opens GitHub PR, UX designer changes label to UX +1 |
 
 Each skill runs independently. Approvals and handoffs are managed in Jira. No Jira or GitHub integration in the skills yet — planned for after testing.
 
@@ -27,7 +27,7 @@ skill-name/
 
 ## Current status
 
-- `url-ux-audit/` — working, has real reports from April–May 2026
+- `demo-audit/` — working, has real reports from April–May 2026
 - `figma-ux-content-audit/` — working, has real reports from April 2026
 - `copy-doc-review/` — built, not yet tested
 
@@ -40,8 +40,12 @@ skill-name/
    many issues the skill catches (e.g. 18/20) and prove it improves when we tweak it, rather
    than eyeballing each run. Without it we can smoke-test but not measure. (Real authoring
    effort — deferred until the skill is otherwise solid.)
-4. Add Jira and GitHub PR integration as optional inputs once reviews are solid
-5. (Future) Turn the checks into a Figma plugin
+4. Clarify copy doc role in Figma audit — when a copy doc is provided at the Figma
+   stage, the skill should ask whether it has already been through copy doc review
+   (stage 1). If it has, treat it as the approved source of truth and only flag
+   differences (not re-review copy quality). If it hasn't, note that in the report.
+5. Add Jira and GitHub PR integration as optional inputs once reviews are solid
+6. (Future) Turn the checks into a Figma plugin
 
 ## Test file
 

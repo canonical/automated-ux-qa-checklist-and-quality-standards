@@ -1,15 +1,15 @@
 ---
-name: url-ux-audit
+name: demo-audit
 description: >
-  Use this skill whenever the user wants to audit a live URL for UX content quality.
-  Triggers include: "audit this URL", "review this page", "check UX content on this site",
-  "post-deployment check", "QA this page", "review the live page", "check the copy on
-  this URL", or when the user pastes a URL and asks for a content or UX review.
+  Use this skill whenever the user wants to audit a demo or live URL for UX content quality.
+  Triggers include: "audit this demo", "review this PR demo", "check UX content on this page",
+  "QA this demo", "review the demo page", "check the copy on this URL", or when the user
+  pastes a URL or GitHub PR link and asks for a content or UX review.
 ---
 
-# URL UX Audit Skill
+# Demo Audit Skill
 
-Performs a UX content quality check on a live web page by fetching its content and
+Performs a UX content quality check on a demo or live web page by fetching its content and
 reviewing it against a UX best practice checklist.
 
 Outputs a structured markdown report organised by page section order (top to bottom), with issues cited to
@@ -21,16 +21,20 @@ specific page sections and elements. This lets a reviewer read the report side b
 
 | Input | Required | Notes |
 |---|---|---|
-| URL | Yes | The live page to audit |
+| Demo URL or GitHub PR URL | Yes | A demo URL directly, or a GitHub PR URL to be converted using `scripts/pr-to-demo-url.sh` |
 | Custom UX checklist | Optional | Overrides or supplements the default checklist. User may paste inline or provide a file. |
 
 ---
 
-## Step 0 — Confirm inputs
+## Step 0 — Confirm inputs and resolve URL
 
-1. Check that the user has provided a URL. If not, ask before proceeding.
-2. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
-3. Tell the user what will be checked.
+1. Check what the user has provided:
+   - **Demo URL** (e.g. `https://canonical-com-1444.demos.haus/path`) — use directly.
+   - **GitHub PR URL** (e.g. `https://github.com/canonical/canonical.com/pull/1444`) — run `scripts/pr-to-demo-url.sh` to convert it to one or more demo URLs. The script inspects the PR's changed files to determine the page path(s).
+   - If neither is provided, ask before proceeding.
+2. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
+3. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
+4. Tell the user what will be checked.
 
 ---
 
@@ -123,6 +127,8 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 | Page returns empty or near-empty content | Warn the user — the page may require authentication or be JS-rendered. Note the limitation in the report. |
 | Page is behind a login | Note that the audit covers only what is publicly accessible. Flag that authenticated states could not be checked. |
 | Very long page | Process all content. If context limits are a concern, prioritise above-the-fold sections and note any sections that were skipped. |
+| PR URL provided | Run `scripts/pr-to-demo-url.sh` to convert. If the script fails (e.g. `gh` not authenticated, repo not supported), tell the user and ask for the demo URL directly. |
+| PR changed non-page files only | The script may return no demo URLs if only CSS, JS, or config files changed. Tell the user and ask for the demo URL manually. |
 
 ---
 
@@ -130,4 +136,5 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 - `references/default-checklist.md` — Full default UX content checklist (adapted for live pages)
 - `references/report-template.md` — Report structure template
+- `scripts/pr-to-demo-url.sh` — Converts a GitHub PR URL to demo URL(s)
 - `reports/` — Saved audit reports, named `[page-slug]-[YYYY-MM-DD].md`

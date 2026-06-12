@@ -10,7 +10,7 @@ A set of Claude AI skills for reviewing UX content quality at each stage of the 
 |---|---|---|---|
 | 1. Copy doc | `copy-doc-review` | Google Doc export (`.md`) | When a new page copy doc is ready for UX review, before design begins |
 | 2. Figma | `figma-ux-content-audit` | Figma file URL + optional copy doc | When the visual designer has created a Figma draft for UX review |
-| 3. Live page | `url-ux-audit` | Live or demo URL | When a demo URL is ready for UX sign-off before launch |
+| 3. Demo | `demo-audit` | Demo URL or GitHub PR URL | When a demo URL is ready for UX sign-off before launch |
 
 Each skill runs independently. Approvals and handoffs between stages are managed in Jira.
 
@@ -30,11 +30,11 @@ Reviews a Figma file for UX content quality. Can also compare Figma content agai
 
 **Input:** A Figma file URL. Optionally, a markdown copy doc for exact match comparison.
 
-### `url-ux-audit`
+### `demo-audit`
 
-Reviews a live or demo URL for UX content quality by fetching the page and checking it against the checklist.
+Reviews a demo or live page for UX content quality by fetching the page and checking it against the checklist. Accepts a demo URL directly, or a GitHub PR URL which is automatically converted to a demo URL using `scripts/pr-to-demo-url.sh`.
 
-**Input:** A publicly accessible URL.
+**Input:** A demo URL, or a GitHub PR URL (e.g. `https://github.com/canonical/canonical.com/pull/1444`).
 
 ---
 
