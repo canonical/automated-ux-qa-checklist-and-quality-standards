@@ -65,11 +65,11 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 8. Manual Checks (remind reviewer)
+## 9. Manual Checks (remind reviewer)
 
-These cannot be checked via static fetch and should be completed by the reviewer:
+These cannot be automated and should be completed by the reviewer:
 
+- [ ] **Responsive behavior** — resize the browser or use device emulation to check layout and readability at mobile, tablet, and desktop breakpoints
+- [ ] **Keyboard navigation** — tab through the page to confirm correct focus order, visible focus indicators, and accessible labels on interactive elements
 - [ ] **Authenticated states** — log in and check any copy that only appears after authentication
 - [ ] **JS-rendered content** — interact with the page to trigger dynamic states (errors, success messages, empty states)
-- [ ] **Keyboard navigation** — tab through the page to confirm correct focus order and accessible labels
-- [ ] **Mobile view** — resize or use device emulation to check layout and readability

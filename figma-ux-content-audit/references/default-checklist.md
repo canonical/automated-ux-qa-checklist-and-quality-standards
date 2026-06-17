@@ -68,11 +68,3 @@ UX best practice checks for Figma content reviews. These are independent of any 
 
 - [ ] All designer annotations and comments in the Figma file have been reviewed and addressed or noted in the report
 
----
-
-## 9. Manual Checks (remind reviewer)
-
-These cannot be automated and should be completed by the reviewer:
-
-- [ ] **Live page compare** — open the live page and compare; confirm only the intended sections have changed
-- [ ] **Keyboard navigation** — for any special or interactive features, manually tab through to confirm correct keyboard navigation order

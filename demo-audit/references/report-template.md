@@ -42,7 +42,7 @@ Specific, genuine observations about content that is well done.
 
 ## 🔲 Manual checks for reviewer
 
+- [ ] **Responsive behavior** – resize the browser or use device emulation to check layout and readability at mobile, tablet, and desktop breakpoints
+- [ ] **Keyboard navigation** – tab through the page to confirm correct focus order, visible focus indicators, and accessible labels on interactive elements
 - [ ] **Authenticated states** – log in and check any copy that only appears after authentication
 - [ ] **JS-rendered content** – interact with the page to trigger dynamic states (errors, success messages, empty states)
-- [ ] **Keyboard navigation** – tab through the page to confirm correct focus order and accessible labels
-- [ ] **Mobile view** – resize or use device emulation to check layout and readability

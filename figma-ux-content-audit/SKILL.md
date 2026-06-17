@@ -121,7 +121,6 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 6. Navigation
 7. Mobile Considerations
 8. Designer Annotations
-9. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 
@@ -207,12 +206,6 @@ List any unresolved annotations or notes left by the designer in the Figma file:
 
 Specific, genuine observations about content that is well done.
 
----
-
-## 🔲 Manual Checks for Reviewer
-
-- [ ] **Live page compare** — open the live page, refresh, and confirm only the intended sections have changed
-- [ ] **Keyboard navigation** — for any special or interactive features, manually tab through to confirm correct order
 ```
 
 ---
