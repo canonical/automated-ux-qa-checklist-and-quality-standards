@@ -90,10 +90,12 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ## 9. Tone and clarity
 
-- [ ] Copy is written in plain language appropriate to the audience
-- [ ] Sentences are scannable, not overly long or dense
+- [ ] Sentences average 12–20 words; no single sentence exceeds 30 words
+- [ ] Paragraphs are ≤4 lines (scannable blocks, not walls of text)
+- [ ] Reading level targets Flesch-Kincaid Grade 7–9 for marketing pages, Grade 10–12 for developer docs (use metadata audience field or infer from content)
 - [ ] Terminology is consistent throughout the doc (same word for the same thing)
-- [ ] No internal jargon, acronyms, or shorthand that won't make sense to the user
+- [ ] Acronyms are expanded on first use; no unexplained internal jargon
+- [ ] Prefer active voice — flag passive constructions unless they serve clarity
 
 ---
 
