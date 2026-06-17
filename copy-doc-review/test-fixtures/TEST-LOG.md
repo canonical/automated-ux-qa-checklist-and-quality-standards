@@ -43,9 +43,9 @@ whether the agent is catching more of the right things, with less noise, more cl
 testing we manually suffixed `-run2`. Worth deciding whether the skill should add a run
 counter or timestamp when a file for that date already exists.
 
-**Still open:** ~~double-reporting instruction (#1),~~ thresholds for subjective checks (#3),
-misplaced asset rule (#5), and the bigger one — a seeded fixture with an answer key so we
-can actually score recall/precision rather than eyeball deltas.
+**Still open:** ~~double-reporting instruction (#1),~~ ~~thresholds for subjective checks (#3),~~
+~~misplaced asset rule (#5),~~ and the bigger one — ~~a seeded fixture with an answer key so we
+can actually score recall/precision rather than eyeball deltas.~~
 
 **Closed 2026-06-17:** #1 (double-reporting) and #5 (misplaced asset rule) resolved by the
 page-order reporting change — issues are now listed by page section, not by category, so
@@ -91,7 +91,7 @@ the same text no longer gets reported under multiple headings.
 
 **Still open (not yet fixed)**
 - ~~Double-reporting / "report each finding once" instruction (gap #3).~~ Closed 2026-06-17 — resolved by page-order reporting.
-- Thresholds for subjective checks (gap #4).
+- ~~Thresholds for subjective checks (gap #4).~~ Closed 2026-06-17 — replaced vague tone/clarity items with measurable thresholds (sentence length, paragraph length, reading grade, acronym rule, active voice).
 - ~~No seeded fixture with answer key~~ — done: `test-fixtures/test-copy-doc.md` + `test-copy-doc-answer-key.md`.
 
 **Next run should check:** that the doc-type gate removes the false-critical (Error states
