@@ -43,9 +43,13 @@ whether the agent is catching more of the right things, with less noise, more cl
 testing we manually suffixed `-run2`. Worth deciding whether the skill should add a run
 counter or timestamp when a file for that date already exists.
 
-**Still open:** double-reporting instruction (#1), thresholds for subjective checks (#3),
+**Still open:** ~~double-reporting instruction (#1),~~ thresholds for subjective checks (#3),
 misplaced asset rule (#5), and the bigger one — a seeded fixture with an answer key so we
 can actually score recall/precision rather than eyeball deltas.
+
+**Closed 2026-06-17:** #1 (double-reporting) and #5 (misplaced asset rule) resolved by the
+page-order reporting change — issues are now listed by page section, not by category, so
+the same text no longer gets reported under multiple headings.
 
 ---
 
@@ -86,9 +90,9 @@ can actually score recall/precision rather than eyeball deltas.
   Step 2 instructs the agent to use ❓ needs review for anything unverifiable from text.
 
 **Still open (not yet fixed)**
-- Double-reporting / "report each finding once" instruction (gap #3).
+- ~~Double-reporting / "report each finding once" instruction (gap #3).~~ Closed 2026-06-17 — resolved by page-order reporting.
 - Thresholds for subjective checks (gap #4).
-- No seeded fixture with answer key → still can't score recall/precision.
+- ~~No seeded fixture with answer key~~ — done: `test-fixtures/test-copy-doc.md` + `test-copy-doc-answer-key.md`.
 
 **Next run should check:** that the doc-type gate removes the false-critical (Error states
 shows as N/A, not critical) and that the domain question lands in ❓ Needs review.
