@@ -41,18 +41,7 @@ UX best practice checks for Figma content reviews. These are independent of any 
 
 ---
 
-## 5. Error & Feedback States
-
-- [ ] Every error state has a message — no silent failures
-- [ ] Error messages explain what went wrong in plain language
-- [ ] Error messages tell the user how to fix the problem
-- [ ] Success/confirmation messages confirm the specific action that was completed
-- [ ] Empty states have explanatory text and a CTA or next step where appropriate
-- [ ] Loading states have descriptive text, not just a spinner
-
----
-
-## 6. Accessibility
+## 5. Accessibility
 
 - [ ] All images, graphs, and graphics have alt text
 - [ ] Icon-only elements have a visible or accessible label
@@ -61,27 +50,27 @@ UX best practice checks for Figma content reviews. These are independent of any 
 
 ---
 
-## 7. Navigation
+## 6. Navigation
 
 - [ ] Navigation labels are reflected correctly and consistently in the design
 - [ ] Users can identify where they are in a flow at all times
 
 ---
 
-## 8. Mobile Considerations (flag for review)
+## 7. Mobile Considerations (flag for review)
 
 - [ ] Tables, dense copy, or complex layouts are flagged for mobile design consideration
 - [ ] Any content that may be truncated or hard to read at small sizes is noted
 
 ---
 
-## 9. Designer Annotations
+## 8. Designer Annotations
 
 - [ ] All designer annotations and comments in the Figma file have been reviewed and addressed or noted in the report
 
 ---
 
-## 10. Manual Checks (remind reviewer)
+## 9. Manual Checks (remind reviewer)
 
 These cannot be automated and should be completed by the reviewer:
 

@@ -117,12 +117,11 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 2. CTAs
 3. Links
 4. Forms & Inputs
-5. Error & Feedback States
-6. Accessibility
-7. Navigation
-8. Mobile Considerations
-9. Designer Annotations
-10. Manual Checks (include as reminders in report, not as pass/fail)
+5. Accessibility
+6. Navigation
+7. Mobile Considerations
+8. Designer Annotations
+9. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 

@@ -41,18 +41,7 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 5. Error & Feedback States
-
-- [ ] Every error state has a message — no silent failures
-- [ ] Error messages explain what went wrong in plain language
-- [ ] Error messages tell the user how to fix the problem
-- [ ] Success/confirmation messages confirm the specific action that was completed
-- [ ] Empty states have explanatory text and a CTA or next step where appropriate
-- [ ] Loading states have descriptive text, not just a spinner
-
----
-
-## 6. Accessibility
+## 5. Accessibility
 
 - [ ] All images, graphs, and graphics have alt text
 - [ ] Icon-only elements have a visible or accessible label
@@ -61,7 +50,7 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 7. Navigation
+## 6. Navigation
 
 - [ ] Navigation labels are clear and consistent across the page
 - [ ] Users can identify where they are in a flow or site at all times
@@ -69,14 +58,14 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 8. Mobile Considerations (flag for review)
+## 7. Mobile Considerations (flag for review)
 
 - [ ] Tables, dense copy, or complex layouts are flagged for mobile review
 - [ ] Any content that may be truncated or hard to read at small sizes is noted
 
 ---
 
-## 9. Manual Checks (remind reviewer)
+## 8. Manual Checks (remind reviewer)
 
 These cannot be checked via static fetch and should be completed by the reviewer:
 

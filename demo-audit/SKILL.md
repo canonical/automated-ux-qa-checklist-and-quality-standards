@@ -51,7 +51,6 @@ Section: [landmark or inferred role — e.g. Header, Nav, Hero, Main, Form, Foot
 Process the full page. Note while extracting:
 - Input fields and whether they have visible labels (vs placeholder-only)
 - Button and link text
-- Error or feedback messages if present in the HTML
 - Empty or placeholder text nodes (e.g. "Lorem ipsum", "[placeholder]")
 - Any alt text on images
 - Any visible form validation or hint text
@@ -84,11 +83,10 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 2. CTAs
 3. Links
 4. Forms & Inputs
-5. Error & Feedback States
-6. Accessibility
-7. Navigation
-8. Mobile Considerations
-9. Manual Checks (include as reminders in report, not as pass/fail)
+5. Accessibility
+6. Navigation
+7. Mobile Considerations
+8. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 

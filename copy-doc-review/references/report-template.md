@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|
 | UX quality check | X | X | X | X | X | X |
 
-**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms, Error states – marketing page]
+**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms – marketing page]
 
 ---
 
