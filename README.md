@@ -57,6 +57,13 @@ Default checklists are in each skill's `references/` folder. They can be overrid
 
 ---
 
-## Future considerations
+## Next steps and future work
 
-- **Version tracking for reviewed documents.** If a copy doc or Figma file is changed after a review has been completed, there is currently no way to confirm the review was run against the correct version. A future improvement could capture timestamps, document hashes, or Figma version IDs at review time so that any post-review changes are detectable. This would prevent a situation where a review is treated as valid but the source material has since changed.
+_This is the running list of planned improvements and deferred ideas. If something comes up as "I should work on this later" or "what should I do next," it goes here._
+
+1. **Copy doc role in Figma audit.** When a copy doc is provided at the Figma stage, the skill should ask whether it has already been through copy doc review (stage 1). If yes, treat it as the approved source of truth and only flag differences. If no, note that in the report.
+2. **GCP service account for Google Docs export.** Needed to automatically pull copy doc content via the Google Docs API instead of manual export. Requires a GCP project, service account with Docs read-only scope, and the doc shared with that account.
+3. **Automation pipeline.** Jira automation → GitHub Actions → Google Docs export → linter → Claude API for judgment checks → post report back to Jira. Blocked on GCP access (#2).
+4. **Linter improvements.** Three partly-scriptable checks not yet implemented: heading levels inside table cells, acronym first-use expansion, sentence length measurement.
+5. **Figma audit retry.** The Cassandra page Figma file (`canonical.com-data---Sites`) timed out on first attempt. Can retry now that MCP is confirmed working for smaller queries.
+6. **Version tracking for reviewed documents.** If a copy doc or Figma file is changed after a review has been completed, there is currently no way to confirm the review was run against the correct version. A future improvement could capture timestamps, document hashes, or Figma version IDs at review time so that any post-review changes are detectable.
