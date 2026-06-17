@@ -102,7 +102,6 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 9. Character Limits
 10. Tone & Clarity
 11. Comments & Revisions
-12. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 

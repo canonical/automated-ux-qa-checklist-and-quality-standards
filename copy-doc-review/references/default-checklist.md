@@ -83,7 +83,6 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 - [ ] All required states are written (default, hover/focus where copy differs, error, success, empty, loading) — *interactive states apply only to app/UI/flow docs; skip for static marketing pages*
 - [ ] All variants of a component or flow are documented
 - [ ] Microcopy (tooltips, helper text, validation messages) is included where needed
-- [ ] Any conditional copy (e.g. "if user is logged in, show X; else show Y") is clearly specified
 
 ---
 
@@ -116,11 +115,3 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 - [ ] All open comments in the doc are resolved or noted
 - [ ] All "TBD", "placeholder", or "TK" markers are flagged for resolution before design begins
 
----
-
-## 12. Manual checks (remind reviewer)
-
-These should be completed by the reviewer:
-
-- [ ] **Conditional / dynamic content:** check that all branches of conditional copy are written, not just the default path
-- [ ] **Source content:** verify any copy that pulls from external sources (product docs, marketing claims) is accurate and approved
