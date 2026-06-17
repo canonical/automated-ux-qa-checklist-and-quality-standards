@@ -47,3 +47,9 @@ Each skill saves audit reports to its own `reports/` folder in the format `[slug
 ## Checklists
 
 Default checklists are in each skill's `references/` folder. They can be overridden or supplemented with a custom checklist at runtime.
+
+---
+
+## Future considerations
+
+- **Version tracking for reviewed documents.** If a copy doc or Figma file is changed after a review has been completed, there is currently no way to confirm the review was run against the correct version. A future improvement could capture timestamps, document hashes, or Figma version IDs at review time so that any post-review changes are detectable. This would prevent a situation where a review is treated as valid but the source material has since changed.
