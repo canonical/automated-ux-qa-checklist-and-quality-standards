@@ -44,6 +44,13 @@ Each skill saves audit reports to its own `reports/` folder in the format `[slug
 
 ---
 
+## Git workflow
+
+- **Reports** (`reports/*.md`) — push directly to `main`. These are review outputs and should be collected in the repo without requiring approval.
+- **Everything else** (checklists, skill instructions, linter code, templates, README) — get approval before pushing to `main`. These are shared tools that affect how reviews run for everyone.
+
+---
+
 ## Checklists
 
 Default checklists are in each skill's `references/` folder. They can be overridden or supplemented with a custom checklist at runtime.
