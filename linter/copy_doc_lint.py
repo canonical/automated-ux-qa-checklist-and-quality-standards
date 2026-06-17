@@ -43,7 +43,8 @@ SECTION_MARKERS = [
     "HERO", "LOGO CLOUD", "DATA SPOTLIGHT", "TIERED LIST",
     "EQUAL HEIGHT ROW", "EQUAL HEIGHTS ROW", "OPTIONS/PRICING",
     "RESOURCES", "TEXT SPOTLIGHT", "QUOTE", "BLOG", "TABBED",
-    "DIVIDED", "NEWSLETTER", "TABLE", "PRICING",
+    "DIVIDED", "NEWSLETTER", "TABLE", "PRICING", "CTA BAND",
+    "BASIC SECTION", "CUSTOMER STORIES",
 ]
 
 
@@ -51,13 +52,16 @@ def identify_section(line: str, prev_section: str) -> str:
     """Return the current section name based on markers in the line."""
     upper = line.strip().upper()
 
-    # Check for explicit section markers
+    # Check for explicit section markers (as standalone lines or inside template patterns)
     for marker in SECTION_MARKERS:
+        # Match as standalone label or in backtick template markers
         if upper == marker or upper.startswith(marker + " "):
             return marker.title()
+        if f"`{marker}" in upper and "PATTERN" in upper:
+            return marker.title()
 
-    # Check for METADATA TABLE
-    if "METADATA TABLE" in line.upper():
+    # Check for METADATA TABLE or METADATA pattern
+    if "METADATA" in upper and ("TABLE" in upper or "PATTERN" in upper):
         return "Metadata"
 
     # Check for visible page marker
@@ -93,16 +97,59 @@ REQUIRED_METADATA = [
 
 
 def extract_metadata(lines: list[str]) -> dict[str, str]:
-    """Extract metadata table key-value pairs."""
+    """Extract metadata table key-value pairs from either doc format."""
     metadata = {}
+    in_metadata = False
     for line in lines:
-        # Match table rows: | key | value |
-        m = re.match(r'^\|\s*\\?\*?(.*?)\s*\|\s*(.*?)\s*\|', line)
-        if m:
-            key = re.sub(r'[\\*]', '', m.group(1)).strip().lower()
-            val = m.group(2).strip()
-            if key and not key.startswith('---') and not key.startswith(':--'):
-                metadata[key] = val
+        upper = line.strip().upper()
+        if "METADATA" in upper and ("TABLE" in upper or "PATTERN" in upper):
+            in_metadata = True
+            continue
+        # End of metadata on next section marker or visible page marker
+        if in_metadata and ("visible page starts here" in line.lower()
+                           or any(line.strip().upper() == m for m in SECTION_MARKERS)
+                           or any(line.strip().upper().startswith(m + " ") for m in SECTION_MARKERS)):
+            break
+        # Also end on template pattern markers for other sections
+        if in_metadata and re.match(r'^\|\s*`[A-Z].*pattern', line, re.IGNORECASE):
+            if "METADATA" not in line.upper():
+                break
+        if not in_metadata:
+            continue
+
+        # Split line into pipe-separated cells
+        if '|' not in line:
+            continue
+        cells = line.split('|')
+        # Clean each cell
+        clean_cells = []
+        for c in cells:
+            cleaned = re.sub(r'[\\*`]', '', c).strip()
+            clean_cells.append(cleaned)
+        # Remove empty cells from leading/trailing pipes
+        clean_cells = [c for c in clean_cells if c]
+
+        # Skip separator/formatting rows
+        if all(re.match(r'^[:|-]+$', c) or not c for c in clean_cells):
+            continue
+        if len(clean_cells) == 1 and clean_cells[0].lower() == 'separator':
+            continue
+
+        # Find key-value pair: first substantive cell is key, next is value
+        key = None
+        val = ""
+        for i, cell in enumerate(clean_cells):
+            if not cell or cell.lower() == 'separator' or re.match(r'^[:|-]+$', cell):
+                continue
+            if key is None:
+                key = cell.lower()
+            else:
+                val = cell
+                break
+
+        if key:
+            metadata[key] = val
+
     return metadata
 
 
@@ -473,7 +520,7 @@ BANNED_LINK_TEXT = [
 
 def extract_links(text: str) -> list[tuple[str, str]]:
     """Extract (link_text, url) pairs from markdown."""
-    return re.findall(r'\[([^\]]+)\]\(([^)]+)\)', text)
+    return re.findall(r'\[([^\]]+)\]\(([^)]*)\)', text)
 
 
 def extract_bare_ctas(text: str) -> list[str]:
@@ -489,10 +536,11 @@ def check_links_and_ctas(text: str, section: str, line_num: int) -> list[Finding
     links = extract_links(text)
     bare_ctas = extract_bare_ctas(text)
 
-    # Check for banned link text
+    # Check for banned link text (substring match for phrases like "Click here to...")
     for link_text, url in links:
+        lt_lower = link_text.strip().lower()
         for banned in BANNED_LINK_TEXT:
-            if link_text.strip().lower() == banned:
+            if lt_lower == banned or lt_lower.startswith(banned + " "):
                 findings.append(Finding(
                     rule="link-text",
                     severity="needs-work",
@@ -501,6 +549,20 @@ def check_links_and_ctas(text: str, section: str, line_num: int) -> list[Finding
                     found=link_text,
                     line=line_num,
                 ))
+                break
+
+    # Check for empty link destinations
+    for link_text, url in links:
+        if not url.strip():
+            findings.append(Finding(
+                rule="cta-destination",
+                severity="critical",
+                section=section,
+                message=f'Link/CTA "{link_text}" has an empty destination',
+                found=f"[{link_text}]()",
+                suggestion="Add the destination URL",
+                line=line_num,
+            ))
 
     # Check for Google Drive links
     for link_text, url in links:
@@ -515,6 +577,17 @@ def check_links_and_ctas(text: str, section: str, line_num: int) -> list[Finding
                 line=line_num,
             ))
 
+    # Check for author comments in brackets: [AUTHOR: ...], [NOTE: ...], [EDITOR: ...]
+    for m in re.finditer(r'\[(AUTHOR|EDITOR|NOTE|REVIEW|COMMENT)\s*:([^\]]+)\]', text, re.IGNORECASE):
+        findings.append(Finding(
+            rule="open-comment",
+            severity="needs-work",
+            section=section,
+            message=f"Unresolved author comment: [{m.group(1)}: ...]",
+            found=m.group(0),
+            line=line_num,
+        ))
+
     # Check for bare CTAs with no destination
     for cta in bare_ctas:
         # Skip template markers, section labels, and image refs
@@ -527,9 +600,11 @@ def check_links_and_ctas(text: str, section: str, line_num: int) -> list[Finding
         if "standard logos" in cta.lower() or "use the" in cta.lower():
             continue
         # Skip labels/tags (typically short, lowercase descriptors in brackets)
-        # e.g. [subscription-based], [on-demand]
         clean_cta = cta.strip().rstrip("\\")
         if re.match(r'^[a-z][a-z0-9 -]+$', clean_cta) and len(clean_cta) < 25:
+            continue
+        # Skip author/editor comments (handled above)
+        if re.match(r'(AUTHOR|EDITOR|NOTE|REVIEW|COMMENT)\s*:', cta, re.IGNORECASE):
             continue
         findings.append(Finding(
             rule="cta-destination",
@@ -565,6 +640,31 @@ def check_link_consistency(all_links: list[tuple[str, str, str]]) -> list[Findin
                 section=text_to_section[text],
                 message=f'Link text "{text}" points to {len(urls)} different URLs',
                 found=f'"{text}" → {", ".join(sorted(urls))}',
+            ))
+
+    return findings
+
+
+def check_duplicate_ctas(all_ctas: list[tuple[str, str]]) -> list[Finding]:
+    """Flag duplicate CTA labels on the same page."""
+    findings = []
+    seen: dict[str, list[str]] = {}
+
+    for cta_text, section in all_ctas:
+        key = cta_text.strip().lower()
+        if key not in seen:
+            seen[key] = []
+        seen[key].append(section)
+
+    for text, sections in seen.items():
+        if len(sections) > 1:
+            findings.append(Finding(
+                rule="duplicate-cta",
+                severity="needs-work",
+                section=sections[0],
+                message=f'CTA "{text}" appears {len(sections)} times on the page (in {", ".join(sections)})',
+                found=text,
+                suggestion="Use distinct CTA text for each instance",
             ))
 
     return findings
@@ -757,6 +857,7 @@ def lint_file(filepath: str) -> list[Finding]:
 
     findings: list[Finding] = []
     all_links: list[tuple[str, str, str]] = []
+    all_ctas: list[tuple[str, str]] = []
 
     # Parse sections
     sections = parse_sections(lines)
@@ -766,7 +867,7 @@ def lint_file(filepath: str) -> list[Finding]:
     findings.extend(check_metadata_completeness(metadata))
     findings.extend(check_metadata_char_limits(metadata))
 
-    # Check heading levels
+    # Check heading levels (both standalone and inside table cells)
     findings.extend(check_heading_levels(lines))
 
     # Line-by-line checks
@@ -777,21 +878,39 @@ def lint_file(filepath: str) -> list[Finding]:
         if len(line) > 1000 and not re.search(r'[a-z]{3,}\s+[a-z]{3,}', line[:200], re.IGNORECASE):
             continue
 
+        # Skip base64 image reference lines for placeholder checks
+        is_image_ref = line.strip().startswith("[image") and "base64" in line
+
+        # Skip preamble/template instructions for superlative checks
+        is_preamble = section_name == "Preamble"
+
         findings.extend(check_uk_spelling(line, section_name, line_num))
         findings.extend(check_product_names(line, section_name, line_num))
         findings.extend(check_banned_words(line, section_name, line_num))
         findings.extend(check_punctuation(line, section_name, line_num))
         findings.extend(check_links_and_ctas(line, section_name, line_num))
-        findings.extend(check_placeholders(line, section_name, line_num))
-        findings.extend(check_claims(line, section_name, line_num))
+        if not is_image_ref:
+            findings.extend(check_placeholders(line, section_name, line_num))
+        if not is_preamble:
+            findings.extend(check_claims(line, section_name, line_num))
         findings.extend(check_numbers(line, section_name, line_num))
 
-        # Collect links for consistency check
+        # Collect links and CTAs for cross-line checks
         for link_text, url in extract_links(line):
             all_links.append((link_text, url, section_name))
+            all_ctas.append((link_text, section_name))
+        for cta_text in extract_bare_ctas(line):
+            clean = cta_text.strip().rstrip("\\")
+            # Only track real CTAs, not template markers or image refs
+            if clean.startswith(("col:", "ch:", "image")) or clean.upper() == clean:
+                continue
+            if re.match(r'^image\d+$', clean, re.IGNORECASE):
+                continue
+            all_ctas.append((clean, section_name))
 
     # Cross-line checks
     findings.extend(check_link_consistency(all_links))
+    findings.extend(check_duplicate_ctas(all_ctas))
 
     return findings
 
