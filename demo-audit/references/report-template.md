@@ -46,3 +46,4 @@ Specific, genuine observations about content that is well done.
 - [ ] **Keyboard navigation** – tab through the page to confirm correct focus order, visible focus indicators, and accessible labels on interactive elements
 - [ ] **Authenticated states** – log in and check any copy that only appears after authentication
 - [ ] **JS-rendered content** – interact with the page to trigger dynamic states (errors, success messages, empty states)
+- [ ] **Discourse post (case studies only)** – confirm that the dev has also created a corresponding Discourse post for the case study

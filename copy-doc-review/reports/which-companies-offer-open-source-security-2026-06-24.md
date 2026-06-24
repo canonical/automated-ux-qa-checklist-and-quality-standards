@@ -8,9 +8,9 @@
 ## Summary
 | Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor | ❓ Needs Review | ⬜ N/A |
 |---|---|---|---|---|---|---|
-| UX quality check | – | two | three | four | one | two |
+| UX quality check | – | two | two | four | one | two |
 
-**Total issues:** nine (two critical, three needs work, four minor) · **Needs review:** one · **N/A sections:** Forms and inputs; interactive states in Completeness
+**Total issues:** eight (two critical, two needs work, four minor) · **Needs review:** one · **N/A sections:** Forms and inputs; interactive states in Completeness
 
 ---
 
@@ -38,9 +38,6 @@
 ---
 
 ### Text section one – "What are the different market areas of open source security?"
-#### 🟡 Needs Work
-- **[Accessibility / Tone and clarity]** Acronyms are not consistently expanded on first use. Terms such as SCA, SAST, CVE, CNAPP, WAAP, OCI, FIPS, CIS, STIG, DORA, CRA, OVAL, OSV, VEX, and ESM are likely too specialized for a broad executive audience without expansion or brief explanation.
-
 #### 🔵 Minor
 - **[Structure and hierarchy]** Inconsistent capitalization of SaaS – the intro list uses "SAAS" while the subsection heading uses "SaaS." This looks unpolished and may reduce trust.
 

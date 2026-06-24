@@ -80,6 +80,14 @@ For each checklist item:
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
 
+### Evidence requirement
+
+Every issue must be backed by a specific citation from the document. Do not flag something as missing or incorrect without first verifying it against the actual text. For example:
+
+- **Acronyms:** Before flagging an acronym as unexpanded, search the full document for the expanded form. Many copy docs introduce the full term in the body text (e.g. "Software Composition Analysis (SCA)") even if the heading or list only uses the abbreviation. If the expansion exists anywhere before or at the first use of the acronym, the check passes.
+- **Character limits:** Count the actual characters rather than estimating.
+- **Link destinations:** Confirm a link is genuinely missing or broken — do not assume based on formatting alone.
+
 ### Severity overrides
 
 The following should always be treated as **🔵 Minor**, regardless of what the default rules would suggest:

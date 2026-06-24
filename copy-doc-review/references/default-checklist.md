@@ -94,7 +94,7 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 - [ ] Paragraphs are ≤4 lines (scannable blocks, not walls of text)
 - [ ] Reading level targets Flesch-Kincaid Grade 7–9 for marketing pages, Grade 10–12 for developer docs (use metadata audience field or infer from content)
 - [ ] Terminology is consistent throughout the doc (same word for the same thing)
-- [ ] Acronyms are expanded on first use; no unexplained internal jargon
+- [ ] Acronyms are expanded on first use; no unexplained internal jargon. **Verify by locating the first occurrence** — if the full term appears before or alongside the abbreviation, this check passes. Do not flag acronyms as unexpanded without confirming they are actually missing their expansion in the text.
 - [ ] Prefer active voice — flag passive constructions unless they serve clarity
 
 ---
