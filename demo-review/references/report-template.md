@@ -1,7 +1,7 @@
-# UX content audit report – live page
+# UX demo review: [name of the page]
 
-**URL:** [page URL]
-**Date:** [today's date]
+**URL:** [page URL]  
+**Date:** [today's date]  
 **Note:** [omit, or note if JS-rendered content may not have been captured]
 
 ---
