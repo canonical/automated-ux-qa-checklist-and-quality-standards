@@ -30,11 +30,12 @@ specific page sections and elements. This lets a reviewer read the report side b
 
 1. Check what the user has provided:
    - **Demo URL** (e.g. `https://canonical-com-1444.demos.haus/path`) — use directly.
-   - **GitHub PR URL** (e.g. `https://github.com/canonical/canonical.com/pull/1444`) — run `scripts/pr-to-demo-url.sh` to convert it to one or more demo URLs. The script inspects the PR's changed files to determine the page path(s).
+   - **GitHub PR URL** (e.g. `https://github.com/canonical/canonical.com/pull/1444`) — run `scripts/parse-pr-inputs.sh` to extract all inputs from the PR body. The script returns JSON with demo URL(s), Figma file URL (with node ID if present), and copy doc URL. If the PR body does not contain a `demos.haus` URL, the script falls back to `scripts/pr-to-demo-url.sh` to construct demo URLs from changed template files.
    - If neither is provided, ask before proceeding.
-2. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
-3. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
-4. Tell the user what will be checked.
+2. If the script returns a Figma URL, use it for design fidelity checks (see Step 2). If it returns a copy doc URL, use it for copy comparison.
+3. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
+4. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
+5. Tell the user what will be checked and which inputs were found.
 
 ---
 
@@ -134,5 +135,6 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 - `references/default-checklist.md` — Full default UX content checklist (adapted for live pages)
 - `references/report-template.md` — Report structure template
-- `scripts/pr-to-demo-url.sh` — Converts a GitHub PR URL to demo URL(s)
+- `scripts/parse-pr-inputs.sh` — Extracts demo URL(s), Figma URL (with node ID), and copy doc URL from a GitHub PR body. Returns JSON.
+- `scripts/pr-to-demo-url.sh` — Fallback: converts a GitHub PR URL to demo URL(s) from changed template files
 - `reports/` — Saved audit reports, named `[page-slug]-[YYYY-MM-DD].md`
