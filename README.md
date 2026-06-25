@@ -57,13 +57,27 @@ Default checklists are in each skill's `references/` folder. They can be overrid
 
 ---
 
+## GitHub integration
+
+The demo review skill is integrated with GitHub Actions. When someone adds the `Review: UX needed` label to a PR, a workflow automatically:
+
+1. Parses the PR for demo URL, Figma URL, and copy doc URL
+2. Posts a `@copilot` comment with all inputs to trigger the demo review
+3. The review runs and posts the report as a PR comment
+
+The workflow also supports manual trigger via `workflow_dispatch` with a PR number.
+
+See `.github/workflows/ux-demo-review.yml` for the workflow definition.
+
+---
+
 ## Next steps and future work
 
 _This is the running list of planned improvements and deferred ideas. If something comes up as "I should work on this later" or "what should I do next," it goes here._
 
-1. **Copy doc role in Figma audit.** When a copy doc is provided at the Figma stage, the skill should ask whether it has already been through copy doc review (stage 1). If yes, treat it as the approved source of truth and only flag differences. If no, note that in the report.
-2. **GCP service account for Google Docs export.** Needed to automatically pull copy doc content via the Google Docs API instead of manual export. Requires a GCP project, service account with Docs read-only scope, and the doc shared with that account.
-3. **Automation pipeline.** Jira automation → GitHub Actions → Google Docs export → linter → Claude API for judgment checks → post report back to Jira. Blocked on GCP access (#2).
+1. **Refine checklists and report templates.** Iterate on the default checklists and report templates based on real review results to reduce noise and improve signal.
+2. **Build a scored test document.** Create a purpose-made copy doc with a known set of deliberately-planted issues and a separate answer key. This lets us score how many issues the skill catches (e.g. 18/20) and measure improvement when we tweak checklists, rather than eyeballing each run.
+3. **GCP service account for Google Docs export.** Needed to automatically pull copy doc content via the Google Docs API instead of manual export. Requires a GCP project, service account with Docs read-only scope, and the doc shared with that account.
 4. **Linter improvements.** Three partly-scriptable checks not yet implemented: heading levels inside table cells, acronym first-use expansion, sentence length measurement.
 5. **Figma audit retry.** The Cassandra page Figma file (`canonical.com-data---Sites`) timed out on first attempt. Can retry now that MCP is confirmed working for smaller queries.
 6. **Figma node ID in PR links.** The demo-review skill relies on the `node-id` parameter in Figma URLs to fetch the correct frame. If a developer links to a top-level Figma file without a `node-id`, the skill gets the entire file and cannot reliably match frames to the demo page. Monitor incoming demo PRs to confirm developers are linking to specific frames. If missing node IDs become common, add a fallback that matches by page name or heading text against Figma frame names.
