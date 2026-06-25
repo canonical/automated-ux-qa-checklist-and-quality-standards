@@ -3,10 +3,18 @@ name: UX demo review
 on:
   pull_request_target:
     types: [labeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: string
 
 jobs:
   demo-review:
-    if: github.event.label.name == 'Review: UX needed'
+    if: |
+      (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed') ||
+      github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -15,8 +23,6 @@ jobs:
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Install gh CLI
         run: gh --version
@@ -26,27 +32,25 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_URL="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
+          PR_NUMBER="${{ github.event.pull_request.number || inputs.pr_number }}"
+          PR_URL="https://github.com/${{ github.repository }}/pull/${PR_NUMBER}"
           echo "Parsing inputs from: $PR_URL"
           OUTPUT=$(./demo-review/scripts/parse-pr-inputs.sh "$PR_URL")
           echo "$OUTPUT"
           echo "inputs<<EOF" >> "$GITHUB_OUTPUT"
           echo "$OUTPUT" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "pr_number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
 
       - name: Post parsed inputs as PR comment
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PR_NUMBER="${{ github.event.pull_request.number }}"
-          BODY=$(cat <<'COMMENT'
-          ## 🔍 UX demo review – inputs detected
+          PR_NUMBER="${{ steps.parse.outputs.pr_number }}"
+          gh pr comment "$PR_NUMBER" --body "## 🔍 UX demo review – inputs detected
 
-          ```json
+          \`\`\`json
           ${{ steps.parse.outputs.inputs }}
-          ```
+          \`\`\`
 
-          _This is a dry-run confirmation that the trigger and parser are working. The full review skill will replace this comment._
-          COMMENT
-          )
-          gh pr comment "$PR_NUMBER" --body "$BODY"
+          _This is a dry-run confirmation that the trigger and parser are working. The full review skill will replace this comment._"
