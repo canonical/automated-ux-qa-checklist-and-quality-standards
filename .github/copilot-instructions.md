@@ -27,9 +27,9 @@ skill-name/
 
 ## Current status
 
-- `demo-review/` — working, has real reports from April–May 2026
+- `copy-doc-review/` — working, has real reports from June 2026
 - `figma-review/` — working, has real reports from April 2026
-- `copy-doc-review/` — built, not yet tested
+- `demo-review/` — working, has real reports from April–May 2026
 
 ## Next steps
 
