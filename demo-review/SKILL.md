@@ -7,7 +7,7 @@ description: >
   pastes a URL or GitHub PR link and asks for a content or UX review.
 ---
 
-# Demo Audit Skill
+# Demo Review Skill
 
 Performs a UX content quality check on a demo or live web page by fetching its content and
 reviewing it against a UX best practice checklist.

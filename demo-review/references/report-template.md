@@ -8,35 +8,49 @@
 
 ## Summary
 
-| Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor |
-|---|---|---|---|---|
-| UX quality check | X | X | X | X |
+| Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor | ❓ Needs Review | ⬜ N/A |
+|---|---|---|---|---|---|---|
+| UX quality check | X | X | X | X | X | X |
 
-**Total issues:** N (X critical, X needs work, X minor)
+**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list]
 
 ---
 
 ## Issues by page section
 
-List issues in the order they appear on the page, top to bottom. Each issue should note its check category in brackets for reference.
+Organise issues in the order they appear on the page, top to bottom. Tag each issue with its check category in brackets (e.g. [CTAs], [Accessibility]) so the category is still visible. Group by page section, not by check category.
 
-### [Section name — e.g. Header, Nav, Hero, Main content, Form, Footer]
+### [Section name — e.g. Navigation, Hero, Section title, Form, Footer]
 
-#### 🔴 Critical
-- **[Check category]** – [issue and why it matters]
-  - *Found:* "[text]" | *Recommendation:* "[suggestion]"
+**[Check category] 🔴 Critical – [short description]**
+Evidence: "[text found or element observed]"
+[Why it matters and what to fix.]
 
-#### 🟡 Needs Work
-- ...
+**[Check category] 🟡 Needs Work – [short description]**
+Evidence: "[text found or element observed]"
+[Recommendation.]
 
-#### 🔵 Minor
-- ...
+**[Check category] 🔵 Minor – [short description]**
+Evidence: "[text found or element observed]"
+[Suggestion.]
+
+---
+
+## ❓ Needs review
+
+Items that cannot be confirmed from the fetched HTML alone (e.g. JS-rendered content, intentional redirects, authenticated states).
+
+---
+
+## ⬜ Not applicable
+
+List any checklist sections that do not apply to this page and why (e.g. "Forms and inputs – no form present on this page").
 
 ---
 
 ## ✅ What looks good
 
-Specific, genuine observations about content that is well done.
+Specific, genuine observations about content that is well done. List passes grouped by page section.
 
 ---
 
