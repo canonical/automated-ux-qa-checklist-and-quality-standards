@@ -1,5 +1,5 @@
 ---
-name: figma-ux-content-audit
+name: figma-review
 description: >
   Use this skill whenever the user wants to audit, review, or check a Figma file
   for UX content quality, or compare Figma copy against a copy document. Triggers

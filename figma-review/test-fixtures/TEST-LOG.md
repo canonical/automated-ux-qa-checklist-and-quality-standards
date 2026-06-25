@@ -1,6 +1,6 @@
-# figma-ux-content-audit — test log
+# figma-review — test log
 
-A running log of test runs of the `figma-ux-content-audit` skill. Newest first. Goal: see
+A running log of test runs of the `figma-review` skill. Newest first. Goal: see
 over time whether the agent catches more of the right things, with less noise, more clearly.
 
 ## How we test (current method)

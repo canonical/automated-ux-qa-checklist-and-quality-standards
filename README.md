@@ -9,7 +9,7 @@ A set of Claude AI skills for reviewing UX content quality at each stage of the 
 | Stage | Skill | Input | When to use |
 |---|---|---|---|
 | 1. Copy doc | `copy-doc-review` | Google Doc export (`.md`) | When a new page copy doc is ready for UX review, before design begins |
-| 2. Figma | `figma-ux-content-audit` | Figma file URL + optional copy doc | When the visual designer has created a Figma draft for UX review |
+| 2. Figma | `figma-review` | Figma file URL + optional copy doc | When the visual designer has created a Figma draft for UX review |
 | 3. Demo | `demo-review` | Demo URL or GitHub PR URL | When a demo URL is ready for UX sign-off before launch |
 
 Each skill runs independently. Approvals and handoffs between stages are managed in Jira.
@@ -24,7 +24,7 @@ Reviews a copy document against UX best practice standards. Checks structure and
 
 **Input:** A copy doc exported or copied from Google Docs into markdown format.
 
-### `figma-ux-content-audit`
+### `figma-review`
 
 Reviews a Figma file for UX content quality. Can also compare Figma content against a copy doc for exact match checking.
 

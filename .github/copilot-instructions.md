@@ -7,7 +7,7 @@ This repo contains three skills for UX content reviews on the Canonical websites
 | Stage | Skill | Input | Trigger |
 |---|---|---|---|
 | 1. Copy doc | `copy-doc-review/` | Google Doc exported to markdown | Jira automation pings UX designer to review |
-| 2. Figma | `figma-ux-content-audit/` | Figma file URL + optional copy doc | Visual designer comments in Jira requesting UX review |
+| 2. Figma | `figma-review/` | Figma file URL + optional copy doc | Visual designer comments in Jira requesting UX review |
 | 3. Demo | `demo-review/` | Demo URL or GitHub PR URL | Dev opens GitHub PR, UX designer changes label to UX +1 |
 
 Each skill runs independently. Approvals and handoffs are managed in Jira. No Jira or GitHub integration in the skills yet — planned for after testing.
@@ -28,7 +28,7 @@ skill-name/
 ## Current status
 
 - `demo-review/` — working, has real reports from April–May 2026
-- `figma-ux-content-audit/` — working, has real reports from April 2026
+- `figma-review/` — working, has real reports from April 2026
 - `copy-doc-review/` — built, not yet tested
 
 ## Next steps
