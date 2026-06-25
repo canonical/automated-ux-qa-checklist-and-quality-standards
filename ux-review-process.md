@@ -11,7 +11,7 @@ This process keeps UX content quality high across Canonical websites by catching
 | Input | Source | Notes |
 |---|---|---|
 | Copy document (markdown export) | Content author via Google Docs | Exported or copied into **.md** format before review begins |
-| Figma file URL | Visual designer | The Figma draft created from the approved copy doc |
+| Figma file URL (with frame link) | Visual designer | The Figma draft created from the approved copy doc. Visual designers link to the specific frame, not just the file. |
 | Copy doc (optional, at Figma stage) | Content author | Provided alongside the Figma file for exact match comparison |
 | Demo URL or GitHub PR URL | Developer | A deployed demo of the implemented page, or a PR that can be converted to a demo URL |
 | Custom UX checklist (optional) | UX designer | Overrides or supplements the default checklist at any stage |
@@ -34,7 +34,7 @@ This process keeps UX content quality high across Canonical websites by catching
 
 **Trigger:** The visual designer comments in Jira to request a UX review of the Figma draft.
 
-1. Get the Figma file URL from the designer
+1. Get the Figma frame URL from the designer (link should point to the specific frame, not just the file)
 2. Optionally, provide the approved copy doc for exact match comparison
 3. Run the **figma-review** skill with the Figma URL and copy doc if available
 4. The skill extracts all text content from the Figma file via MCP, runs an exact copy match if a copy doc is provided, and checks content against the UX checklist
