@@ -9,8 +9,10 @@ description: >
 
 # Demo Review Skill
 
-Performs a UX content quality check on a demo or live web page by fetching its content and
-reviewing it against a UX best practice checklist.
+Performs two checks on a demo or live web page by fetching its content:
+
+1. **UX quality check** — reviews page content against UX best practice checklist
+2. **Brand & style compliance** — reviews all copy against the Canonical copy style guide (`shared/copy-style-guide-checklist.md`)
 
 Outputs a structured markdown report organised by page section order (top to bottom), with issues cited to
 specific page sections and elements. This lets a reviewer read the report side by side with the page.
@@ -91,7 +93,23 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 
 ---
 
-## Step 3 — Write the audit report
+## Step 3 — Brand & style compliance
+
+Load `shared/copy-style-guide-checklist.md` and run it against all extracted text content from the page. This checks the **page copy** against the Canonical copy style guide.
+
+1. Run **Part A (deterministic checks)** — flag every match. These include: US spelling, "open source" formatting, product names, capitalisation, units, dates, numbers, punctuation, apostrophes, acronyms, link/CTA text, hyphens, banned words/phrases, consistency spellings, formatting conventions.
+2. Run **Part B (judgment checks)** — apply with examples given. These include: brand voice, tone, sentence length, readability, active voice, security/absolute claims, superlatives, inclusive language, commonly confused words, plain language.
+
+Report findings under a separate **Brand & style compliance** heading in the report. Use the severity scale from the style guide checklist:
+- 🔴 **Critical** — legal, compliance, or brand-integrity risk (unprovable claims, wrong product names)
+- 🟡 **Needs work** — banned words/phrases, wrong capitalisation, voice/tone misses
+- 🔵 **Minor** — punctuation, units, number/date formatting, dash style
+
+**Do not double-count:** If an issue is already flagged by the UX quality check (e.g. non-descriptive link text), report it only once under whichever check is more specific.
+
+---
+
+## Step 4 — Write the audit report
 
 Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2.
 
@@ -109,7 +127,7 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 ---
 
-## Step 4 — Deliver and save the report
+## Step 5 — Deliver and save the report
 
 1. Output the report inline in chat as markdown.
 2. **Automatically save** the report to `reports/` using the filename format `[page-slug]-[YYYY-MM-DD].md`. Derive the page slug from the URL path (lowercase, hyphens, no spaces) — e.g. `reports/checkout-2026-04-20.md`. Do not ask the user for confirmation before saving.

@@ -11,6 +11,7 @@
 | Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor | ❓ Needs Review | ⬜ N/A |
 |---|---|---|---|---|---|---|
 | UX quality check | X | X | X | X | X | X |
+| Brand & style compliance | X | X | X | X | — | — |
 
 **Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list]
 
@@ -33,6 +34,22 @@ Evidence: "[text found or element observed]"
 **[Check category] 🔵 Minor – [short description]**
 Evidence: "[text found or element observed]"
 [Suggestion.]
+
+---
+
+## Brand & style compliance
+
+Issues from the Canonical copy style guide check. Organised by severity.
+
+### 🔴 Critical
+- **[Check ID]** – [issue]
+  - *Found:* "[text]" in [Section] | *Correct:* "[corrected text]"
+
+### 🟡 Needs Work
+- ...
+
+### 🔵 Minor
+- ...
 
 ---
 
