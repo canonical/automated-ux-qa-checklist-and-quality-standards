@@ -1,5 +1,5 @@
 ---
-name: demo-audit
+name: demo-review
 description: >
   Use this skill whenever the user wants to audit a demo or live URL for UX content quality.
   Triggers include: "audit this demo", "review this PR demo", "check UX content on this page",
