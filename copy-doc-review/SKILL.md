@@ -51,7 +51,6 @@ Process the full document. Note while extracting:
 - CTA text and any noted destinations
 - Link text and any noted destinations
 - Input field labels and placeholder text
-- Error, success, and empty state copy
 - Any TBD, placeholder, or unresolved markers
 - Open comments or revision notes
 
@@ -65,8 +64,8 @@ Process the full document. Note while extracting:
 
 Not every section applies to every doc. Before checking, decide which sections are **in scope** based on the page type from Step 1:
 
-- **Marketing / product / landing pages** (no interactive flows): sections 4 (Forms & Inputs), 5 (Error & Feedback States), and the interactive parts of 8 (Completeness — hover/focus/error/success/empty/loading states) are **Not applicable**. Mark them N/A and **do not** flag missing forms or error states as issues — their absence is expected.
-- **App / product UI / flow docs**: all sections apply, including Forms and Error states. Here a missing error state *is* a real gap.
+- **Marketing / product / landing pages** (no interactive flows): section 4 (Forms & Inputs) and the interactive parts of 7 (Completeness — hover/focus/error/success/empty/loading states) are **Not applicable**. Mark them N/A and **do not** flag missing forms as issues — their absence is expected.
+- **App / product UI / flow docs**: all sections apply, including Forms. Here a missing form *is* a real gap.
 
 State which sections you are treating as N/A and why, so a reader can see it was a deliberate decision, not an oversight. When genuinely unsure whether a doc has interactive states, mark the relevant checks **needs review** rather than passing or failing them.
 
@@ -77,9 +76,17 @@ For each checklist item:
 1. Check the extracted content to determine a status: **✅ pass / issue / ❓ needs review / ⬜ not applicable**
 2. Cite the specific section and text or missing element as evidence
 3. For each *issue*, assign severity:
-   - 🔴 **Critical** — blocks design from starting (missing required metadata, undefined CTA destination; for flow docs only: silent/undefined error state)
+   - 🔴 **Critical** — blocks design from starting (missing required metadata, undefined CTA destination)
    - 🟡 **Needs work** — vague copy, missing best practice, inconsistency
    - 🔵 **Minor** — small wording or pattern improvement
+
+### Evidence requirement
+
+Every issue must be backed by a specific citation from the document. Do not flag something as missing or incorrect without first verifying it against the actual text. For example:
+
+- **Acronyms:** Before flagging an acronym as unexpanded, search the full document for the expanded form. Many copy docs introduce the full term in the body text (e.g. "Software Composition Analysis (SCA)") even if the heading or list only uses the abbreviation. If the expansion exists anywhere before or at the first use of the acronym, the check passes.
+- **Character limits:** Count the actual characters rather than estimating.
+- **Link destinations:** Confirm a link is genuinely missing or broken — do not assume based on formatting alone.
 
 ### Severity overrides
 
@@ -95,14 +102,12 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 2. CTAs
 3. Links
 4. Forms & Inputs
-5. Error & Feedback States
-6. Accessibility
-7. Navigation
-8. Completeness
-9. Character Limits
-10. Tone & Clarity
-11. Comments & Revisions
-12. Manual Checks (include as reminders in report, not as pass/fail)
+5. Accessibility
+6. Navigation
+7. Completeness
+8. Character Limits
+9. Tone & Clarity
+10. Comments & Revisions
 
 ---
 
@@ -143,7 +148,7 @@ Remove sections that have no findings (e.g. if no forms are present, remove Form
 | Doc has many unresolved TBDs | Flag them all in the Completeness section. Note in the summary that design should not start until they are resolved. |
 | No metadata table present | Flag as a critical issue under Structure & Hierarchy. |
 | Doc is very long | Process the full document. If sections are clearly marked, process them in order and note any skipped content. |
-| No error states defined | Only a gap for **app / product UI / flow docs** — there, flag under Error & Feedback States as a critical gap. For marketing/product/landing pages, mark Error & Feedback States **N/A**; do not flag (see Step 2 doc-type gate). |
+| No error states defined | Not applicable for this workflow — error and feedback states have been removed from the checklist. |
 
 ---
 

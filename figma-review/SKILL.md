@@ -1,5 +1,5 @@
 ---
-name: figma-ux-content-audit
+name: figma-review
 description: >
   Use this skill whenever the user wants to audit, review, or check a Figma file
   for UX content quality, or compare Figma copy against a copy document. Triggers
@@ -14,10 +14,11 @@ description: >
 
 # Figma UX Content Audit Skill
 
-Performs two checks on a Figma file:
+Performs three checks on a Figma file:
 
 1. **Exact copy match** — compares every text string in the Figma file against a markdown copy document, flagging any differences (wording, missing strings, extra strings, minor differences like punctuation or capitalisation)
 2. **UX quality check** — reviews Figma content against UX best practice checklist
+3. **Brand & style compliance** — reviews all copy against the Canonical copy style guide (`shared/copy-style-guide-checklist.md`), checking spelling, capitalisation, product names, punctuation, banned words, tone, and voice
 
 Outputs a structured markdown report organised by check type, with issues cited to specific Figma frames/layers.
 
@@ -117,16 +118,30 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 2. CTAs
 3. Links
 4. Forms & Inputs
-5. Error & Feedback States
-6. Accessibility
-7. Navigation
-8. Mobile Considerations
-9. Designer Annotations
-10. Manual Checks (include as reminders in report, not as pass/fail)
+5. Accessibility
+6. Navigation
+7. Mobile Considerations
+8. Designer Annotations
 
 ---
 
-## Step 4 — Write the audit report
+## Step 4 — Check 3: Brand & style compliance
+
+Load `shared/copy-style-guide-checklist.md` and run it against all extracted text content from the Figma file. This checks the **reviewed content** (not the report itself) against the Canonical copy style guide.
+
+1. Run **Part A (deterministic checks)** — flag every match. These include: US spelling, "open source" formatting, product names, capitalisation, units, dates, numbers, punctuation, apostrophes, acronyms, link/CTA text, hyphens, banned words/phrases, consistency spellings, formatting conventions.
+2. Run **Part B (judgment checks)** — apply with examples given. These include: brand voice, tone, sentence length, readability, active voice, security/absolute claims, superlatives, inclusive language, commonly confused words, plain language.
+
+Report findings under a separate **Brand & style compliance** heading in the report (see report template below). Use the severity scale from the style guide checklist:
+- 🔴 **Critical** — legal, compliance, or brand-integrity risk (unprovable claims, wrong product names)
+- 🟡 **Needs work** — banned words/phrases, wrong capitalisation, voice/tone misses
+- 🔵 **Minor** — punctuation, units, number/date formatting, dash style
+
+**Do not double-count:** If an issue is already flagged by the UX quality check (e.g. non-descriptive link text), report it only once under whichever check is more specific.
+
+---
+
+## Step 5 — Write the audit report
 
 **Report ordering:** For Check 2 (UX quality), organise issues by frame/section in the order they appear in the Figma flow (top to bottom, left to right), not by check category. Tag each issue with its check category in brackets (e.g. [CTAs], [Accessibility]) so the category is still visible. This lets a reviewer read the report alongside the Figma file without jumping around.
 
@@ -138,87 +153,11 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 - Spell out single-figure numbers (one–nine); use digits from 10 up.
 - No gendered pronouns – use they/them.
 
-Output a structured markdown report:
-
-```markdown
-# UX Content Audit Report
-**Figma file:** [file name or URL]
-**Copy doc:** [filename, or "Not provided — exact match check skipped"]
-**Date:** [today's date]
-**Checks run:** [Exact copy match | UX quality check | Both]
+Output a structured markdown report using the template in `references/report-template.md`. Fill in every section based on findings from the checks above.
 
 ---
 
-## Summary
-
-| Check | ✅ Pass | 🔴 Critical | 🟡 Needs Work | 🔵 Minor |
-|---|---|---|---|---|
-| Exact copy match | — | X | X | X |
-| UX quality check | X | X | X | X |
-
-**Total issues:** N (X critical, X needs work, X minor)
-
----
-
-## Check 1: Exact Copy Match
-
-### 🔴 Critical — Wording differences
-- **[Frame: Name] [Layer: Name]**
-  - Figma: "[actual text]"
-  - Copy doc: "[expected text]"
-
-### 🔴 Critical — Missing from Figma
-- **[Copy doc section]:** "[text]" — not found in Figma
-
-### 🟡 Needs Work — Extra in Figma
-- **[Frame: Name]:** "[text]" — not in copy doc
-
-### 🔵 Minor — Punctuation / capitalisation / spacing
-- **[Frame: Name] [Layer: Name]**
-  - Figma: "[actual]"
-  - Copy doc: "[expected]"
-
----
-
-## Check 2: UX Quality Check
-
-### Issues by page section
-
-List issues in the order they appear on the page / in the Figma flow, top to bottom. Each issue should note its check category in brackets for reference.
-
-#### [Frame / section name]
-
-##### 🔴 Critical
-- **[Check category]** – [issue and why it matters]
-  - *Found:* "[text]" | *Recommendation:* "[suggestion]"
-
-##### 🟡 Needs Work
-- ...
-
-##### 🔵 Minor
-- ...
-
-### Designer Annotations
-List any unresolved annotations or notes left by the designer in the Figma file:
-- **[Frame: Name]:** "[annotation text]"
-
----
-
-## ✅ What Looks Good
-
-Specific, genuine observations about content that is well done.
-
----
-
-## 🔲 Manual Checks for Reviewer
-
-- [ ] **Live page compare** — open the live page, refresh, and confirm only the intended sections have changed
-- [ ] **Keyboard navigation** — for any special or interactive features, manually tab through to confirm correct order
-```
-
----
-
-## Step 5 — Deliver the report
+## Step 6 — Deliver the report
 
 - Output the report inline in chat as markdown
 - Offer to generate a `.md` file download if the user wants to save or share it

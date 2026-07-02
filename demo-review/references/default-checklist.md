@@ -41,18 +41,7 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 5. Error & Feedback States
-
-- [ ] Every error state has a message — no silent failures
-- [ ] Error messages explain what went wrong in plain language
-- [ ] Error messages tell the user how to fix the problem
-- [ ] Success/confirmation messages confirm the specific action that was completed
-- [ ] Empty states have explanatory text and a CTA or next step where appropriate
-- [ ] Loading states have descriptive text, not just a spinner
-
----
-
-## 6. Accessibility
+## 5. Accessibility
 
 - [ ] All images, graphs, and graphics have alt text
 - [ ] Icon-only elements have a visible or accessible label
@@ -61,7 +50,7 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 7. Navigation
+## 6. Navigation
 
 - [ ] Navigation labels are clear and consistent across the page
 - [ ] Users can identify where they are in a flow or site at all times
@@ -69,7 +58,7 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ---
 
-## 8. Mobile Considerations (flag for review)
+## 7. Mobile Considerations (flag for review)
 
 - [ ] Tables, dense copy, or complex layouts are flagged for mobile review
 - [ ] Any content that may be truncated or hard to read at small sizes is noted
@@ -78,9 +67,10 @@ UX best practice checks for live URL reviews. These are independent of any brand
 
 ## 9. Manual Checks (remind reviewer)
 
-These cannot be checked via static fetch and should be completed by the reviewer:
+These cannot be automated and should be completed by the reviewer:
 
+- [ ] **Responsive behavior** — resize the browser or use device emulation to check layout and readability at mobile, tablet, and desktop breakpoints
+- [ ] **Keyboard navigation** — tab through the page to confirm correct focus order, visible focus indicators, and accessible labels on interactive elements
 - [ ] **Authenticated states** — log in and check any copy that only appears after authentication
 - [ ] **JS-rendered content** — interact with the page to trigger dynamic states (errors, success messages, empty states)
-- [ ] **Keyboard navigation** — tab through the page to confirm correct focus order and accessible labels
-- [ ] **Mobile view** — resize or use device emulation to check layout and readability
+- [ ] **Discourse post (case studies only)** — confirm that the dev has also created a corresponding Discourse post for the case study

@@ -1,5 +1,5 @@
 ---
-name: demo-audit
+name: demo-review
 description: >
   Use this skill whenever the user wants to audit a demo or live URL for UX content quality.
   Triggers include: "audit this demo", "review this PR demo", "check UX content on this page",
@@ -7,10 +7,12 @@ description: >
   pastes a URL or GitHub PR link and asks for a content or UX review.
 ---
 
-# Demo Audit Skill
+# Demo Review Skill
 
-Performs a UX content quality check on a demo or live web page by fetching its content and
-reviewing it against a UX best practice checklist.
+Performs two checks on a demo or live web page by fetching its content:
+
+1. **UX quality check** — reviews page content against UX best practice checklist
+2. **Brand & style compliance** — reviews all copy against the Canonical copy style guide (`shared/copy-style-guide-checklist.md`)
 
 Outputs a structured markdown report organised by page section order (top to bottom), with issues cited to
 specific page sections and elements. This lets a reviewer read the report side by side with the page.
@@ -30,11 +32,12 @@ specific page sections and elements. This lets a reviewer read the report side b
 
 1. Check what the user has provided:
    - **Demo URL** (e.g. `https://canonical-com-1444.demos.haus/path`) — use directly.
-   - **GitHub PR URL** (e.g. `https://github.com/canonical/canonical.com/pull/1444`) — run `scripts/pr-to-demo-url.sh` to convert it to one or more demo URLs. The script inspects the PR's changed files to determine the page path(s).
+   - **GitHub PR URL** (e.g. `https://github.com/canonical/canonical.com/pull/1444`) — run `scripts/parse-pr-inputs.sh` to extract all inputs from the PR body. The script returns JSON with demo URL(s), Figma file URL (with node ID if present), and copy doc URL. If the PR body does not contain a `demos.haus` URL, the script falls back to `scripts/pr-to-demo-url.sh` to construct demo URLs from changed template files.
    - If neither is provided, ask before proceeding.
-2. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
-3. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
-4. Tell the user what will be checked.
+2. If the script returns a Figma URL, use it for design fidelity checks (see Step 2). If it returns a copy doc URL, use it for copy comparison.
+3. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
+4. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
+5. Tell the user what will be checked and which inputs were found.
 
 ---
 
@@ -51,7 +54,6 @@ Section: [landmark or inferred role — e.g. Header, Nav, Hero, Main, Form, Foot
 Process the full page. Note while extracting:
 - Input fields and whether they have visible labels (vs placeholder-only)
 - Button and link text
-- Error or feedback messages if present in the HTML
 - Empty or placeholder text nodes (e.g. "Lorem ipsum", "[placeholder]")
 - Any alt text on images
 - Any visible form validation or hint text
@@ -84,15 +86,30 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 2. CTAs
 3. Links
 4. Forms & Inputs
-5. Error & Feedback States
-6. Accessibility
-7. Navigation
-8. Mobile Considerations
-9. Manual Checks (include as reminders in report, not as pass/fail)
+5. Accessibility
+6. Navigation
+7. Mobile Considerations
+8. Manual Checks (include as reminders in report, not as pass/fail)
 
 ---
 
-## Step 3 — Write the audit report
+## Step 3 — Brand & style compliance
+
+Load `shared/copy-style-guide-checklist.md` and run it against all extracted text content from the page. This checks the **page copy** against the Canonical copy style guide.
+
+1. Run **Part A (deterministic checks)** — flag every match. These include: US spelling, "open source" formatting, product names, capitalisation, units, dates, numbers, punctuation, apostrophes, acronyms, link/CTA text, hyphens, banned words/phrases, consistency spellings, formatting conventions.
+2. Run **Part B (judgment checks)** — apply with examples given. These include: brand voice, tone, sentence length, readability, active voice, security/absolute claims, superlatives, inclusive language, commonly confused words, plain language.
+
+Report findings under a separate **Brand & style compliance** heading in the report. Use the severity scale from the style guide checklist:
+- 🔴 **Critical** — legal, compliance, or brand-integrity risk (unprovable claims, wrong product names)
+- 🟡 **Needs work** — banned words/phrases, wrong capitalisation, voice/tone misses
+- 🔵 **Minor** — punctuation, units, number/date formatting, dash style
+
+**Do not double-count:** If an issue is already flagged by the UX quality check (e.g. non-descriptive link text), report it only once under whichever check is more specific.
+
+---
+
+## Step 4 — Write the audit report
 
 Load `references/report-template.md` and use it as the structure for the report. Fill in every section based on findings from Step 2.
 
@@ -110,7 +127,7 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 ---
 
-## Step 4 — Deliver and save the report
+## Step 5 — Deliver and save the report
 
 1. Output the report inline in chat as markdown.
 2. **Automatically save** the report to `reports/` using the filename format `[page-slug]-[YYYY-MM-DD].md`. Derive the page slug from the URL path (lowercase, hyphens, no spaces) — e.g. `reports/checkout-2026-04-20.md`. Do not ask the user for confirmation before saving.
@@ -136,5 +153,6 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 - `references/default-checklist.md` — Full default UX content checklist (adapted for live pages)
 - `references/report-template.md` — Report structure template
-- `scripts/pr-to-demo-url.sh` — Converts a GitHub PR URL to demo URL(s)
+- `scripts/parse-pr-inputs.sh` — Extracts demo URL(s), Figma URL (with node ID), and copy doc URL from a GitHub PR body. Returns JSON.
+- `scripts/pr-to-demo-url.sh` — Fallback: converts a GitHub PR URL to demo URL(s) from changed template files
 - `reports/` — Saved audit reports, named `[page-slug]-[YYYY-MM-DD].md`

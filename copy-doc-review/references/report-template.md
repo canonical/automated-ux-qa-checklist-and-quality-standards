@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|---|
 | UX quality check | X | X | X | X | X | X |
 
-**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms, Error states – marketing page]
+**Total issues:** N (X critical, X needs work, X minor) · **Needs review:** X · **N/A sections:** [list, e.g. Forms – marketing page]
 
 ---
 
@@ -55,9 +55,3 @@ Sections skipped for this doc type, with the reason (so it's clear this was deli
 
 Specific, genuine observations about content that is well done.
 
----
-
-## 🔲 Manual checks for reviewer
-
-- [ ] **Conditional / dynamic content:** check that all branches of conditional copy are written, not just the default path
-- [ ] **Source content:** verify any copy that pulls from external sources (product docs, marketing claims) is accurate and approved

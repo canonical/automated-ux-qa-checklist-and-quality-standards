@@ -47,20 +47,7 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 5. Error and feedback states
-
-> **Applies to:** app / product UI / flow docs. For marketing/product/landing pages with no interactive states, mark this section **N/A** — the absence of error/success/loading copy is expected and is not an issue.
-
-- [ ] Every error state in the flow has a defined message with no silent failures
-- [ ] Error messages explain what went wrong in plain language
-- [ ] Error messages tell the user how to fix the problem
-- [ ] Success/confirmation messages confirm the specific action that was completed
-- [ ] Empty states have explanatory text and a CTA or next step where appropriate
-- [ ] Loading states have descriptive text, not just "loading..."
-
----
-
-## 6. Accessibility
+## 5. Accessibility
 
 - [ ] Alt text is provided for any images, graphs, or graphics referenced in the doc, including diagrams
 - [ ] Resource files (whitepapers, data sheets) are hosted on asset manager, not Google Drive or other external locations
@@ -70,7 +57,7 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 7. Navigation
+## 6. Navigation
 
 - [ ] Navigation placement is specified: the page's location in the site structure is clearly indicated
 - [ ] If the page appears in the mega nav, the nav label and description are included in the doc
@@ -78,16 +65,15 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 8. Completeness
+## 7. Completeness
 
-- [ ] All required states are written (default, hover/focus where copy differs, error, success, empty, loading) — *interactive states apply only to app/UI/flow docs; skip for static marketing pages*
+- [ ] All required states are written (default, hover/focus where copy differs) — *interactive states apply only to app/UI/flow docs; skip for static marketing pages*
 - [ ] All variants of a component or flow are documented
 - [ ] Microcopy (tooltips, helper text, validation messages) is included where needed
-- [ ] Any conditional copy (e.g. "if user is logged in, show X; else show Y") is clearly specified
 
 ---
 
-## 9. Character limits
+## 8. Character limits
 
 > Reference: `shared/character-limits.md` for the full table of limits by section type.
 
@@ -102,25 +88,19 @@ UX best practice checks for copy doc reviews. These are independent of any brand
 
 ---
 
-## 10. Tone and clarity
+## 9. Tone and clarity
 
-- [ ] Copy is written in plain language appropriate to the audience
-- [ ] Sentences are scannable, not overly long or dense
+- [ ] Sentences average 12–20 words; no single sentence exceeds 30 words
+- [ ] Paragraphs are ≤4 lines (scannable blocks, not walls of text)
+- [ ] Reading level targets Flesch-Kincaid Grade 7–9 for marketing pages, Grade 10–12 for developer docs (use metadata audience field or infer from content)
 - [ ] Terminology is consistent throughout the doc (same word for the same thing)
-- [ ] No internal jargon, acronyms, or shorthand that won't make sense to the user
+- [ ] Acronyms are expanded on first use; no unexplained internal jargon. **Verify by locating the first occurrence** — if the full term appears before or alongside the abbreviation, this check passes. Do not flag acronyms as unexpanded without confirming they are actually missing their expansion in the text.
+- [ ] Prefer active voice — flag passive constructions unless they serve clarity
 
 ---
 
-## 11. Comments and revisions
+## 10. Comments and revisions
 
 - [ ] All open comments in the doc are resolved or noted
 - [ ] All "TBD", "placeholder", or "TK" markers are flagged for resolution before design begins
 
----
-
-## 12. Manual checks (remind reviewer)
-
-These should be completed by the reviewer:
-
-- [ ] **Conditional / dynamic content:** check that all branches of conditional copy are written, not just the default path
-- [ ] **Source content:** verify any copy that pulls from external sources (product docs, marketing claims) is accurate and approved

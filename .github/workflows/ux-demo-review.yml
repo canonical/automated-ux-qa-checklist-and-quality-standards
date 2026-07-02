@@ -1,0 +1,78 @@
+name: UX demo review
+
+on:
+  pull_request_target:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: string
+
+jobs:
+  demo-review:
+    if: |
+      (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed') ||
+      github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Install gh CLI
+        run: gh --version
+
+      - name: Parse PR inputs
+        id: parse
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ github.event.pull_request.number || inputs.pr_number }}"
+          PR_URL="https://github.com/${{ github.repository }}/pull/${PR_NUMBER}"
+          echo "Parsing inputs from: $PR_URL"
+          OUTPUT=$(./demo-review/scripts/parse-pr-inputs.sh "$PR_URL")
+          echo "$OUTPUT"
+
+          # Extract individual fields for the prompt
+          DEMO_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['demo_urls'][0] if d['demo_urls'] else 'Not found')")
+          FIGMA_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['figma_url'] or 'Not provided')")
+          FIGMA_NODE=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['figma_node_id'] or 'None')")
+          COPYDOC_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['copydoc_url'] or 'Not provided')")
+
+          echo "pr_number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
+          echo "demo_url=${DEMO_URL}" >> "$GITHUB_OUTPUT"
+          echo "figma_url=${FIGMA_URL}" >> "$GITHUB_OUTPUT"
+          echo "figma_node=${FIGMA_NODE}" >> "$GITHUB_OUTPUT"
+          echo "copydoc_url=${COPYDOC_URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Post review request to Copilot
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER="${{ steps.parse.outputs.pr_number }}"
+          DEMO_URL="${{ steps.parse.outputs.demo_url }}"
+          FIGMA_URL="${{ steps.parse.outputs.figma_url }}"
+          FIGMA_NODE="${{ steps.parse.outputs.figma_node }}"
+          COPYDOC_URL="${{ steps.parse.outputs.copydoc_url }}"
+
+          COMMENT_BODY="@copilot Run a UX demo review on this PR. Follow the instructions in \`demo-review/SKILL.md\` and post the full checklist report as a reply to this comment.
+
+          **Inputs:**
+          - **Demo URL:** ${DEMO_URL}
+          - **Figma file:** ${FIGMA_URL} (node ID: ${FIGMA_NODE})
+          - **Copy doc:** ${COPYDOC_URL}
+
+          **Instructions:**
+          1. Fetch the demo URL and extract all visible content by page section
+          2. Compare content against the copy doc for text fidelity
+          3. Compare layout, typography, spacing, and colors against the Figma design
+          4. Run the UX quality checklist from \`demo-review/references/default-checklist.md\`
+          5. Produce the full report using \`demo-review/references/report-template.md\`
+          6. Post the report here as a comment"
+
+          gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
