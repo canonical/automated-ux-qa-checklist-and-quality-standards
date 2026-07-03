@@ -80,6 +80,7 @@ This process keeps UX content quality high across Canonical websites by catching
 | Copy doc audit report | **copy-doc-review/reports/[slug]-[YYYY-MM-DD].md** | Markdown |
 | Figma audit report | **figma-review/reports/[slug]-[YYYY-MM-DD].md** | Markdown |
 | Demo audit report | **demo-review/reports/[slug]-[YYYY-MM-DD].md** | Markdown |
-| Default UX checklists | **[skill]/references/default-checklist.md** | Markdown |
+| Default UX checklists (source of truth) | **[sites-designops repo](https://github.com/Sophie-32/sites-designops/tree/master/checklists)** | Markdown |
+| Default UX checklists (local fallback) | **[skill]/references/default-checklist.md** | Markdown |
 | Report templates | **[skill]/references/report-template.md** | Markdown |
 | Jira ticket (approval record) | Jira | Updated with review status and link to report |

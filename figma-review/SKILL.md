@@ -39,7 +39,7 @@ Outputs a structured markdown report organised by check type, with issues cited 
 1. Check what the user has provided:
    - **Figma file URL/key** — required for both checks. If missing, ask before proceeding.
    - **Markdown copy doc** — if provided, run the exact match check. If not, skip Check 1 and run Check 2 only.
-   - **Custom checklist** — if provided, use instead of or alongside the default. If not, load `references/default-checklist.md`.
+   - **Custom checklist** — if provided, use instead of or alongside the default. If not, fetch the checklist from the designops source of truth: `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/figma-review.md`. If the fetch fails (network error, 404, etc.), fall back to the local copy at `references/default-checklist.md`.
 
 2. Tell the user which checks will be run based on what was provided.
 
@@ -112,7 +112,7 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 - **Logo alt text** — missing or generic alt text on logos (e.g. company logos in partner sections). These are cosmetic, not functional accessibility gaps.
 - **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
 
-### Checklist sections (from default-checklist.md)
+### Checklist sections (from designops checklist)
 
 1. Structure & Hierarchy
 2. CTAs
@@ -179,4 +179,5 @@ Output a structured markdown report using the template in `references/report-tem
 
 ## References
 
-- `references/default-checklist.md` — Full default UX content checklist
+- **Source of truth:** `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/figma-review.md` — Full default UX content checklist, hosted in the [sites-designops](https://github.com/Sophie-32/sites-designops) repo
+- `references/default-checklist.md` — Local fallback copy of the checklist (used if GitHub fetch fails)

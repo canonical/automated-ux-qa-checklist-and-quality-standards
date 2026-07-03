@@ -20,10 +20,14 @@ Each skill follows the same pattern:
 skill-name/
 ├── SKILL.md               # Workflow instructions for Claude
 ├── references/
-│   ├── default-checklist.md   # UX best practice checks
+│   ├── default-checklist.md   # Local fallback checklist (source of truth is in sites-designops repo)
 │   └── report-template.md     # Output format
 └── reports/               # Saved audit reports (slug-YYYY-MM-DD.md)
 ```
+
+### Checklist source of truth
+
+UX checklists are maintained in the [sites-designops](https://github.com/Sophie-32/sites-designops) repo under `checklists/`. Each skill fetches its checklist from there at runtime, falling back to the local `references/default-checklist.md` if the fetch fails.
 
 ## Current status
 

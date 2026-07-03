@@ -36,7 +36,7 @@ specific page sections and elements. This lets a reviewer read the report side b
    - If neither is provided, ask before proceeding.
 2. If the script returns a Figma URL, use it for design fidelity checks (see Step 2). If it returns a copy doc URL, use it for copy comparison.
 3. If the script returns multiple demo URLs (the PR changed multiple pages), ask the user which page(s) to audit, or offer to audit all.
-4. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
+4. If a custom checklist is provided, use it instead of or alongside the default. If not, fetch the checklist from the designops source of truth: `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/demo-review.md`. If the fetch fails (network error, 404, etc.), fall back to the local copy at `references/default-checklist.md`.
 5. Tell the user what will be checked and which inputs were found.
 
 ---
@@ -80,7 +80,7 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 - **Logo alt text** — missing or generic alt text on logos (e.g. company logos in partner sections). These are cosmetic, not functional accessibility gaps.
 - **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
 
-### Checklist sections (from default-checklist.md)
+### Checklist sections (from designops checklist)
 
 1. Structure & Hierarchy
 2. CTAs
@@ -151,7 +151,8 @@ Remove sections that have no findings (e.g. if no forms were found, remove Forms
 
 ## References
 
-- `references/default-checklist.md` — Full default UX content checklist (adapted for live pages)
+- **Source of truth:** `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/demo-review.md` — Full default UX content checklist (adapted for live pages), hosted in the [sites-designops](https://github.com/Sophie-32/sites-designops) repo
+- `references/default-checklist.md` — Local fallback copy of the checklist (used if GitHub fetch fails)
 - `references/report-template.md` — Report structure template
 - `scripts/parse-pr-inputs.sh` — Extracts demo URL(s), Figma URL (with node ID), and copy doc URL from a GitHub PR body. Returns JSON.
 - `scripts/pr-to-demo-url.sh` — Fallback: converts a GitHub PR URL to demo URL(s) from changed template files

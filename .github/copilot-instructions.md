@@ -20,7 +20,7 @@ Each skill follows the same pattern:
 skill-name/
 ├── SKILL.md               # Workflow instructions
 ├── references/
-│   ├── default-checklist.md   # UX best practice checks
+│   ├── default-checklist.md   # Local fallback checklist (source of truth is in sites-designops repo)
 │   └── report-template.md     # Output format
 └── reports/               # Saved audit reports (slug-YYYY-MM-DD.md)
 ```

@@ -29,7 +29,7 @@ specific sections and elements in the document. This lets a reviewer read the re
 ## Step 0 — Confirm inputs
 
 1. Check that the user has provided a copy doc. If not, ask before proceeding.
-2. If a custom checklist is provided, use it instead of or alongside the default. If not, load `references/default-checklist.md`.
+2. If a custom checklist is provided, use it instead of or alongside the default. If not, fetch the checklist from the designops source of truth: `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/copy-doc-review.md`. If the fetch fails (network error, 404, etc.), fall back to the local copy at `references/default-checklist.md`.
 3. Tell the user what will be checked.
 
 ---
@@ -96,7 +96,7 @@ The following should always be treated as **🔵 Minor**, regardless of what the
 - **"Learn more" links with an ARIA label** — if a "Learn more" link has an `aria-label` that provides context, the accessibility requirement is technically met. Flag as minor for copy improvement, not as a standard accessibility issue.
 4. Use **❓ needs review** for anything you genuinely cannot verify from the text alone (e.g. whether a domain mismatch is intentional, whether an unwritten state exists elsewhere in the flow). Do not force these into a pass or a severity — report them honestly in the Needs review bucket.
 
-### Checklist sections (from default-checklist.md)
+### Checklist sections (from designops checklist)
 
 1. Structure & Hierarchy
 2. CTAs
@@ -154,6 +154,7 @@ Remove sections that have no findings (e.g. if no forms are present, remove Form
 
 ## References
 
-- `references/default-checklist.md` — Full default UX content checklist (copy docs)
+- **Source of truth:** `https://raw.githubusercontent.com/Sophie-32/sites-designops/master/checklists/copy-doc-review.md` — Full default UX content checklist (copy docs), hosted in the [sites-designops](https://github.com/Sophie-32/sites-designops) repo
+- `references/default-checklist.md` — Local fallback copy of the checklist (used if GitHub fetch fails)
 - `references/report-template.md` — Report structure template
 - `reports/` — Saved audit reports, named `[doc-slug]-[YYYY-MM-DD].md`
