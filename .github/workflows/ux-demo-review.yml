@@ -9,12 +9,19 @@ on:
         description: 'PR number to review'
         required: true
         type: string
+  workflow_call:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: string
 
 jobs:
   demo-review:
     if: |
-      (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed') ||
-      github.event_name == 'workflow_dispatch'
+      github.event_name == 'workflow_dispatch' ||
+      inputs.pr_number != '' ||
+      (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed')
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
