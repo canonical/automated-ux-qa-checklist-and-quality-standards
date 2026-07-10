@@ -18,7 +18,7 @@
 |  | Target audience (choose from drop down) |  |  | Executives   |  |  |  |  |
 |  | Page type (choose from drop down) |  |  | Product or service |  |  |  |  |
 |  | Stage in the funnel |  |  | 1\. Exploration |  |  |  |  |
-|  | \*Page owner (writer and department) |  |  | [Phil Williams](mailto:philip.williams@canonical.com) Please indicate approvals needed before the page goes into development: Additional internal approval needed |  |  |  |  |
+|  | \*Page owner (writer and department) |  |  | [Jane Doe](mailto:jane.doe@example.com) Please indicate approvals needed before the page goes into development: Additional internal approval needed |  |  |  |  |
 |  | og:Image |  |  | Please include a link to the image you would like as the page thumbnail. Visual designers will resize them as necessary. |  |  |  |  |
 |  | Design support (choose an option) |  |  | Maximum \- I am open to any changes in the layout |  |  |  |  |
 |  | Link to asset manager tag (for designers) |  |  |  |  |  |  |  |

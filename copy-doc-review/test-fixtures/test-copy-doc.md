@@ -18,7 +18,7 @@
 |  | Target audience (choose from drop down) |  |  | Platform engineers |  |  |  |  |
 |  | Page type (choose from drop down) |  |  | Product or service |  |  |  |  |
 |  | Stage in the funnel |  |  | 1\. Exploration |  |  |  |  |
-|  | \*Page owner (writer and department) |  |  | [Jordan Rivera](mailto:jordan.rivera@canonical.com) Additional internal approval needed |  |  |  |  |
+|  | \*Page owner (writer and department) |  |  | [Jane Doe](mailto:jane.doe@example.com) Additional internal approval needed |  |  |  |  |
 |  | og:Image |  |  | Please include a link to the image you would like as the page thumbnail. Visual designers will resize them as necessary. |  |  |  |  |
 |  | Design support (choose an option) |  |  | Maximum \- I am open to any changes in the layout |  |  |  |  |
 |  | Link to asset manager tag (for designers) |  |  |  |  |  |  |  |

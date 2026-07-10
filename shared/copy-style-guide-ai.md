@@ -1,11 +1,11 @@
 ---
 title: Canonical copy style guide
 type: Reference
-owner: Gloria Quintanilla Manzanares (gloria.quintanilla@canonical.com)
+owner: Content Design team (content-design@canonical.com)
 status: Stable
 next_review: 2026-08-14
 last_approved: 2025-08-14
-approved_by: Gloria Quintanilla Manzanares, Minae Lee
+approved_by: Content Design team
 source_of_truth: false
 provenance: Unofficial markdown mirror of the official Google Doc. Added 2026-06-03.
 ---
