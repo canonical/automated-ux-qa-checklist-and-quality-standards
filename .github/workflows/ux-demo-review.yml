@@ -31,8 +31,8 @@ jobs:
       - name: Check out repo
         uses: actions/checkout@v4
         with:
-          repository: canonical/automated-ux-qa-checklist-and-quality-standards
-          ref: ${{ github.workflow_sha }}
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
 
       - name: Install gh CLI
         run: gh --version
