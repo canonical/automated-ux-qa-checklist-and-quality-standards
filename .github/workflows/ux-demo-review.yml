@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: 'PR number to review'
+        description: "PR number to review"
         required: true
         type: string
   workflow_call:
     inputs:
       pr_number:
-        description: 'PR number to review'
+        description: "PR number to review"
         required: true
         type: string
 
@@ -63,14 +63,35 @@ jobs:
       - name: Post review request to Copilot
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Identity of the reusable workflow's own repo, so we can link to the
+          # skill files that live alongside this workflow (not in the PR repo).
+          SKILL_REPO: ${{ job.workflow_repository }}
+          SKILL_SHA: ${{ job.workflow_sha }}
         run: |
+          REPO="${{ github.repository }}"
           PR_NUMBER="${{ steps.parse.outputs.pr_number }}"
           DEMO_URL="${{ steps.parse.outputs.demo_url }}"
           FIGMA_URL="${{ steps.parse.outputs.figma_url }}"
           FIGMA_NODE="${{ steps.parse.outputs.figma_node }}"
           COPYDOC_URL="${{ steps.parse.outputs.copydoc_url }}"
 
-          COMMENT_BODY="@copilot Run a UX demo review on this PR. Follow the instructions in \`demo-review/SKILL.md\` and post the full checklist report as a reply to this comment.
+          # The skill, checklist, and report template live in the reusable
+          # workflow repo, not in the PR's repo. Link to them by full URL,
+          # pinned to the exact commit the workflow ran from, so Copilot can
+          # fetch them while working in the caller's repository.
+          BASE_URL="https://github.com/${SKILL_REPO}/blob/${SKILL_SHA}"
+          SKILL_URL="${BASE_URL}/demo-review/SKILL.md"
+          CHECKLIST_URL="${BASE_URL}/demo-review/references/default-checklist.md"
+          TEMPLATE_URL="${BASE_URL}/demo-review/references/report-template.md"
+
+          COMMENT_BODY="@copilot Run a UX demo review on this PR. Follow the instructions in the SKILL.md linked below and post the full checklist report as a reply to this comment.
+
+          > **Note:** The skill files live in [\`${SKILL_REPO}\`](https://github.com/${SKILL_REPO}), not in this repository. Fetch them from the URLs below.
+
+          **Skill files:**
+          - **SKILL.md:** ${SKILL_URL}
+          - **Checklist:** ${CHECKLIST_URL}
+          - **Report template:** ${TEMPLATE_URL}
 
           **Inputs:**
           - **Demo URL:** ${DEMO_URL}
@@ -78,11 +99,12 @@ jobs:
           - **Copy doc:** ${COPYDOC_URL}
 
           **Instructions:**
-          1. Fetch the demo URL and extract all visible content by page section
-          2. Compare content against the copy doc for text fidelity
-          3. Compare layout, typography, spacing, and colors against the Figma design
-          4. Run the UX quality checklist from \`demo-review/references/default-checklist.md\`
-          5. Produce the full report using \`demo-review/references/report-template.md\`
-          6. Post the report here as a comment"
+          1. Fetch and follow the SKILL.md linked above
+          2. Fetch the demo URL and extract all visible content by page section
+          3. Compare content against the copy doc for text fidelity
+          4. Compare layout, typography, spacing, and colors against the Figma design
+          5. Run the UX quality checklist from the checklist file linked above
+          6. Produce the full report using the report template linked above
+          7. Post the report here as a comment"
 
-          gh pr comment "$PR_NUMBER" --body "$COMMENT_BODY"
+          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$COMMENT_BODY"
