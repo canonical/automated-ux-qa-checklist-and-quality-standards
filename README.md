@@ -16,6 +16,19 @@ Each skill runs independently. Approvals and handoffs between stages are managed
 
 ---
 
+## Running it locally
+
+To run the reviews on your own machine – one command from a single PR link – see
+**[RUNNING-LOCALLY.md](RUNNING-LOCALLY.md)**. It covers every dependency
+(GitHub Copilot CLI, `gh` CLI, Figma MCP login, Google service-account key) and
+how to set each one up.
+
+```bash
+python3 run_review.py "https://github.com/canonical/canonical.com/pull/1444"
+```
+
+---
+
 ## Skills
 
 ### `copy-doc-review`

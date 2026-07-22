@@ -1,6 +1,9 @@
-# Local, machine-specific Claude Code settings (contains local permissions/paths)
-.claude/settings.local.json
+# Google service-account key — a secret, never commit to this public repo.
+google-auth.json
+**/google-auth.json
 
-# Python
+# Python virtual environments and caches
+.venv/
+**/.venv/
 __pycache__/
 *.pyc

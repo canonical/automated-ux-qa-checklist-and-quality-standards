@@ -1,0 +1,6 @@
+# Python dependencies for fetch_google_doc.py (Google Docs export via a
+# service-account key). google-auth mints the access token; requests is the
+# HTTP transport google-auth uses to refresh it. The doc export itself is a
+# plain HTTPS call, so no google-api-python-client is required.
+google-auth>=2.0
+requests>=2.25
