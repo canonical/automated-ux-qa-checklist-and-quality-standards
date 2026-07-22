@@ -28,6 +28,9 @@ Requirements:
 
 Usage:
     python3 run_review.py <GITHUB_PR_URL>
+    python3 run_review.py <GITHUB_PR_URL> --demo-only
+    python3 run_review.py <GITHUB_PR_URL> --figma-only
+    python3 run_review.py <GITHUB_PR_URL> --copy-only
     python3 run_review.py <GITHUB_PR_URL> --only figma,demo
     python3 run_review.py <GITHUB_PR_URL> --skip demo
     python3 run_review.py <GITHUB_PR_URL> --comment      # post combined report to the PR
@@ -80,6 +83,15 @@ def die(msg: str, code: int = 1) -> None:
 
 def info(msg: str) -> None:
     print(msg, flush=True)
+
+
+def parse_stage_list(raw: str, source: str) -> set[str]:
+    stages: set[str] = set()
+    for token in (t.strip().lower() for t in raw.split(",") if t.strip()):
+        if token not in STAGES:
+            die(f"Unknown {source} '{token}'. Valid stages: {', '.join(STAGES)}")
+        stages.add(token)
+    return stages
 
 
 def figma_server_registered() -> bool:
@@ -347,6 +359,21 @@ def main() -> int:
         help="Comma-separated stages to run "
         "(copydoc, figma, demo). Default: all applicable.",
     )
+    parser.add_argument(
+        "--demo-only",
+        action="store_true",
+        help="Run only the demo review stage.",
+    )
+    parser.add_argument(
+        "--figma-only",
+        action="store_true",
+        help="Run only the Figma review stage.",
+    )
+    parser.add_argument(
+        "--copy-only",
+        action="store_true",
+        help="Run only the copy doc review stage.",
+    )
     parser.add_argument("--skip", help="Comma-separated stages to skip.")
     parser.add_argument(
         "--comment",
@@ -367,12 +394,35 @@ def main() -> int:
             "Install: https://github.com/github/copilot-cli"
         )
 
-    only = {s.strip() for s in args.only.split(",")} if args.only else set(STAGES)
-    skip = {s.strip() for s in args.skip.split(",")} if args.skip else set()
-    for s in only | skip:
-        if s not in STAGES:
-            die(f"Unknown stage '{s}'. Valid stages: {', '.join(STAGES)}")
+    only_flags = [
+        args.demo_only,
+        args.figma_only,
+        args.copy_only,
+    ]
+    if sum(1 for selected in only_flags if selected) > 1:
+        die("Use only one of --demo-only, --figma-only, or --copy-only.")
+
+    if args.only and any(only_flags):
+        die("Do not combine --only with --demo-only/--figma-only/--copy-only.")
+
+    if args.demo_only:
+        only = {"demo"}
+    elif args.figma_only:
+        only = {"figma"}
+    elif args.copy_only:
+        only = {"copydoc"}
+    elif args.only:
+        only = parse_stage_list(args.only, "stage")
+    else:
+        only = set(STAGES)
+
+    skip = parse_stage_list(args.skip, "stage") if args.skip else set()
     wanted = only - skip
+
+    if not wanted:
+        die(
+            "No stages selected after applying filters (--only/--demo-only/--figma-only/--copy-only/--skip)."
+        )
 
     info(f"\nResolving GitHub PR: {args.pr_url}")
     data = resolve_pr(args.pr_url)

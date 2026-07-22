@@ -255,9 +255,15 @@ so posting to a shared PR is always deliberate.
 ### Run only some stages
 
 ```bash
+python3 run_review.py "<PR_URL>" --demo-only
+python3 run_review.py "<PR_URL>" --figma-only
+python3 run_review.py "<PR_URL>" --copy-only
 python3 run_review.py "<PR_URL>" --only figma,demo
 python3 run_review.py "<PR_URL>" --skip demo
 ```
+
+The explicit flags are mutually exclusive. If none are provided, the runner uses
+its default behavior and runs all applicable stages.
 
 Valid stage names: `copydoc`, `figma`, `demo`.
 
