@@ -1,110 +1,104 @@
 name: UX demo review
 
+# Reusable workflow that runs ONLY the demo review (not copy doc, not Figma) for
+# a pull request and posts the report back to that PR as a comment.
+#
+# The review is executed directly in the runner via the GitHub Copilot CLI
+# (driven by run_review.py --demo-only --comment), so the result is
+# deterministic and does not depend on the caller repo's Copilot coding agent.
+#
+# Calling repos add a thin caller workflow (see README.md) that references this
+# file with `uses:` and passes the PR number plus the COPILOT_CLI_TOKEN secret.
+
 on:
-  pull_request_target:
-    types: [labeled]
-  workflow_dispatch:
-    inputs:
-      pr_number:
-        description: "PR number to review"
-        required: true
-        type: string
+  # Called from another repository's workflow.
   workflow_call:
     inputs:
       pr_number:
         description: "PR number to review"
         required: true
         type: string
+      ref:
+        description: >-
+          Git ref (branch, tag, or SHA) of this skills repo to run from.
+          Pin this to a tag/SHA for reproducible reviews. Defaults to main.
+        required: false
+        type: string
+        default: main
+    secrets:
+      COPILOT_CLI_TOKEN:
+        description: >-
+          Fine-grained PAT with the "Copilot Requests" permission, used to
+          authenticate the Copilot CLI that runs the review.
+        required: true
+
+  # Manual trigger for this repo (e.g. testing against a PR in another repo).
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to review"
+        required: true
+        type: string
+      ref:
+        description: "Ref of this skills repo to run from"
+        required: false
+        type: string
+        default: main
+
+  # Direct trigger when a PR in *this* repo is labelled.
+  pull_request_target:
+    types: [labeled]
+
+# The token used by gh to read the PR and post the comment. For workflow_call
+# this is the caller repo's GITHUB_TOKEN, which needs write access to comment.
+permissions:
+  pull-requests: write
+  contents: read
 
 jobs:
   demo-review:
     if: |
+      github.event_name == 'workflow_call' ||
       github.event_name == 'workflow_dispatch' ||
-      inputs.pr_number != '' ||
       (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed')
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: read
 
     steps:
-      - name: Check out repo
+      # Check out THIS skills repo (not the caller's). The skill files,
+      # checklists, and scripts that drive the review all live here.
+      - name: Check out skills repo
         uses: actions/checkout@v4
         with:
-          repository: ${{ job.workflow_repository }}
-          ref: ${{ job.workflow_sha }}
+          repository: canonical/automated-ux-qa-checklist-and-quality-standards
+          ref: ${{ inputs.ref || 'main' }}
 
-      - name: Install gh CLI
-        run: gh --version
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-      - name: Parse PR inputs
-        id: parse
+      - name: Install GitHub Copilot CLI
+        run: |
+          curl -fsSL https://gh.io/copilot-install | bash
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Verify tooling
+        run: |
+          copilot --version
+          gh --version
+          python3 --version
+
+      - name: Run demo review and post report to the PR
         env:
+          # Copilot CLI auth (highest-precedence env var for the CLI). Uses the
+          # caller-supplied PAT with the "Copilot Requests" permission.
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_CLI_TOKEN }}
+          # gh auth: reads the PR body and posts the report comment. Uses the
+          # workflow's own GITHUB_TOKEN (needs pull-requests: write).
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           PR_NUMBER="${{ github.event.pull_request.number || inputs.pr_number }}"
           PR_URL="https://github.com/${{ github.repository }}/pull/${PR_NUMBER}"
-          echo "Parsing inputs from: $PR_URL"
-          OUTPUT=$(./demo-review/scripts/parse-pr-inputs.sh "$PR_URL")
-          echo "$OUTPUT"
-
-          # Extract individual fields for the prompt
-          DEMO_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['demo_urls'][0] if d['demo_urls'] else 'Not found')")
-          FIGMA_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['figma_url'] or 'Not provided')")
-          FIGMA_NODE=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['figma_node_id'] or 'None')")
-          COPYDOC_URL=$(echo "$OUTPUT" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d['copydoc_url'] or 'Not provided')")
-
-          echo "pr_number=${PR_NUMBER}" >> "$GITHUB_OUTPUT"
-          echo "demo_url=${DEMO_URL}" >> "$GITHUB_OUTPUT"
-          echo "figma_url=${FIGMA_URL}" >> "$GITHUB_OUTPUT"
-          echo "figma_node=${FIGMA_NODE}" >> "$GITHUB_OUTPUT"
-          echo "copydoc_url=${COPYDOC_URL}" >> "$GITHUB_OUTPUT"
-
-      - name: Post review request to Copilot
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # Identity of the reusable workflow's own repo, so we can link to the
-          # skill files that live alongside this workflow (not in the PR repo).
-          SKILL_REPO: ${{ job.workflow_repository }}
-          SKILL_SHA: ${{ job.workflow_sha }}
-        run: |
-          REPO="${{ github.repository }}"
-          PR_NUMBER="${{ steps.parse.outputs.pr_number }}"
-          DEMO_URL="${{ steps.parse.outputs.demo_url }}"
-          FIGMA_URL="${{ steps.parse.outputs.figma_url }}"
-          FIGMA_NODE="${{ steps.parse.outputs.figma_node }}"
-          COPYDOC_URL="${{ steps.parse.outputs.copydoc_url }}"
-
-          # The skill, checklist, and report template live in the reusable
-          # workflow repo, not in the PR's repo. Link to them by full URL,
-          # pinned to the exact commit the workflow ran from, so Copilot can
-          # fetch them while working in the caller's repository.
-          BASE_URL="https://github.com/${SKILL_REPO}/blob/${SKILL_SHA}"
-          SKILL_URL="${BASE_URL}/demo-review/SKILL.md"
-          CHECKLIST_URL="${BASE_URL}/demo-review/references/default-checklist.md"
-          TEMPLATE_URL="${BASE_URL}/demo-review/references/report-template.md"
-
-          COMMENT_BODY="@copilot Run a UX demo review on this PR. Follow the instructions in the SKILL.md linked below and post the full checklist report as a reply to this comment.
-
-          > **Note:** The skill files live in [\`${SKILL_REPO}\`](https://github.com/${SKILL_REPO}), not in this repository. Fetch them from the URLs below.
-
-          **Skill files:**
-          - **SKILL.md:** ${SKILL_URL}
-          - **Checklist:** ${CHECKLIST_URL}
-          - **Report template:** ${TEMPLATE_URL}
-
-          **Inputs:**
-          - **Demo URL:** ${DEMO_URL}
-          - **Figma file:** ${FIGMA_URL} (node ID: ${FIGMA_NODE})
-          - **Copy doc:** ${COPYDOC_URL}
-
-          **Instructions:**
-          1. Fetch and follow the SKILL.md linked above
-          2. Fetch the demo URL and extract all visible content by page section
-          3. Compare content against the copy doc for text fidelity
-          4. Compare layout, typography, spacing, and colors against the Figma design
-          5. Run the UX quality checklist from the checklist file linked above
-          6. Produce the full report using the report template linked above
-          7. Post the report here as a comment"
-
-          gh pr comment "$PR_NUMBER" --repo "$REPO" --body "$COMMENT_BODY"
+          echo "Running demo review for: $PR_URL"
+          python3 run_review.py "$PR_URL" --demo-only --comment

@@ -5,7 +5,7 @@
 When a PR gets the `Review: UX needed` label, a workflow automatically:
 
 1. Reads your PR description to find the demo URL, Figma link, and copy doc link
-2. Runs a UX content and design fidelity check
+2. Runs a UX demo review (fetches the demo page and checks it) in the runner
 3. Posts a checklist report as a PR comment that a UX designer can tick off
 
 ## What you need to do
@@ -27,12 +27,31 @@ jobs:
     uses: canonical/automated-ux-qa-checklist-and-quality-standards/.github/workflows/ux-demo-review.yml@main
     with:
       pr_number: ${{ github.event.pull_request.number }}
-    secrets: inherit
+    secrets:
+      COPILOT_CLI_TOKEN: ${{ secrets.COPILOT_CLI_TOKEN }}
 ```
 
-That is the only file you need to add.
+The reusable workflow checks out the skills repo, runs **only the demo review**
+(not copy doc, not Figma) in the runner via the GitHub Copilot CLI, and posts
+the report back to your PR as a comment.
 
-### 2. Make sure your PR description includes these links
+### 2. Add the `COPILOT_CLI_TOKEN` secret
+
+The review runs the Copilot CLI, which needs a token with Copilot access.
+Create a fine-grained personal access token with the **Copilot Requests**
+permission (see the
+[Copilot CLI auth docs](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli#authenticating-with-a-personal-access-token)),
+then add it to your repo as an Actions secret named `COPILOT_CLI_TOKEN`:
+
+```bash
+gh secret set COPILOT_CLI_TOKEN --repo <owner>/<repo>
+```
+
+The report comment is posted with the workflow's own `GITHUB_TOKEN`, so no
+extra repo permissions are needed beyond `pull-requests: write` (already
+granted by the reusable workflow).
+
+### 3. Make sure your PR description includes these links
 
 The automation detects inputs by URL domain – it does not matter where in the PR body they appear or what you call them:
 
@@ -44,7 +63,7 @@ The automation detects inputs by URL domain – it does not matter where in the 
 
 **Important:** Link to the specific Figma frame using a URL that includes `node-id=`. If you link to the top-level file without a node ID, the review may not target the correct frame.
 
-### 3. Confirm the `Review: UX needed` label exists
+### 4. Confirm the `Review: UX needed` label exists
 
 Both `canonical/ubuntu.com` and `canonical/canonical.com` already have this label. If your repo does not, create it:
 
