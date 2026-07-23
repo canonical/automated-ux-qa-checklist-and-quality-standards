@@ -23,8 +23,11 @@ To run the reviews on your own machine – one command from a single PR link –
 (GitHub Copilot CLI, `gh` CLI, Figma MCP login, Google service-account key) and
 how to set each one up.
 
+The quickest start is the interactive launcher, which sets up its own
+environment and prompts for the PR URL and which review(s) to run:
+
 ```bash
-python3 run_review.py "https://github.com/canonical/canonical.com/pull/1444"
+python3 review.py
 ```
 
 ---

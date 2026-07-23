@@ -12,7 +12,23 @@ GitHub Copilot CLI and saves a report per stage. It is platform-agnostic
 
 ## TL;DR
 
-Once everything below is set up:
+Easiest: use the interactive launcher. It creates a local `.venv`, installs the
+Python dependencies into it, then asks for the PR URL and which review(s) to
+run:
+
+```bash
+python3 review.py
+```
+
+You can also skip the prompts by passing the PR URL (and any flag) straight
+through:
+
+```bash
+python3 review.py "https://github.com/canonical/canonical.com/pull/1444" --comment
+```
+
+Prefer to call the runner directly (managing your own environment)? Once
+everything below is set up:
 
 ```bash
 # Run all applicable stages for a PR
@@ -105,8 +121,12 @@ comments) if you use `--comment`.
 
 ## 4. Python packages (copy doc stage)
 
-Only needed if you want the copy doc stage to fetch a Google Doc. Install into a
-virtual environment:
+Only needed if you want the copy doc stage to fetch a Google Doc.
+
+**If you use `review.py`, you can skip this** – the launcher creates a local
+`.venv` and installs these for you automatically.
+
+To set it up manually instead, install into a virtual environment:
 
 ```bash
 cd demo-review/scripts
