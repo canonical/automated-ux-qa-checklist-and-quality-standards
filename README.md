@@ -16,6 +16,22 @@ Each skill runs independently. Approvals and handoffs between stages are managed
 
 ---
 
+## Running it locally
+
+To run the reviews on your own machine – one command from a single PR link – see
+**[RUNNING-LOCALLY.md](RUNNING-LOCALLY.md)**. It covers every dependency
+(GitHub Copilot CLI, `gh` CLI, Figma MCP login, Google service-account key) and
+how to set each one up.
+
+The quickest start is the interactive launcher, which sets up its own
+environment and prompts for the PR URL and which review(s) to run:
+
+```bash
+python3 review.py
+```
+
+---
+
 ## Skills
 
 ### `copy-doc-review`
