@@ -60,7 +60,7 @@ jobs:
     if: |
       github.event_name == 'workflow_call' ||
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'pull_request_target' && github.event.label.name == 'Review: UX needed')
+      (github.event_name == 'pull_request' && github.event.label.name == 'Review: UX needed')
     runs-on: ubuntu-latest
 
     steps:
