@@ -46,15 +46,19 @@ PR_BODY=$(gh pr view "$PR_NUMBER" \
   --jq '.body')
 
 # --- Extract URLs by domain ---
+# NOTE: use POSIX ERE (-oE) not PCRE (-oP). BSD grep on macOS has no -P.
+# The URL terminator class is spelled out with [:space:] since \s is PCRE-only.
+
+URL_TAIL='[^][:space:])"]*'
 
 # Demo URLs: anything matching *.demos.haus/*
-DEMO_URLS=$(echo "$PR_BODY" | grep -oP 'https?://[a-zA-Z0-9._-]+\.demos\.haus[^\s\)\]"]*' | sort -u || true)
+DEMO_URLS=$(echo "$PR_BODY" | grep -oE "https?://[a-zA-Z0-9._-]+\.demos\.haus${URL_TAIL}" | sort -u || true)
 
 # Figma URL: figma.com/design/...
-FIGMA_URL=$(echo "$PR_BODY" | grep -oP 'https?://[w.]*figma\.com/design/[^\s\)\]"]*' | head -1 || true)
+FIGMA_URL=$(echo "$PR_BODY" | grep -oE "https?://(www\.)?figma\.com/design/${URL_TAIL}" | head -1 || true)
 
 # Copy doc URL: docs.google.com/document/...
-COPYDOC_URL=$(echo "$PR_BODY" | grep -oP 'https?://docs\.google\.com/document/[^\s\)\]"]*' | head -1 || true)
+COPYDOC_URL=$(echo "$PR_BODY" | grep -oE "https?://docs\.google\.com/document/${URL_TAIL}" | head -1 || true)
 
 # --- Extract Figma node ID if present ---
 FIGMA_NODE_ID=""
