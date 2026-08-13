@@ -14,6 +14,10 @@ description: >
 
 # Figma UX Content Audit Skill
 
+## Prerequisites
+
+- **Figma MCP server must be connected.** This skill requires the `figma-get_figma_data` and `figma-download_figma_images` tools. If they are not available, stop and tell the user to connect the Figma MCP server (check `/mcp` or `/env` status) before proceeding.
+
 Performs three checks on a Figma file:
 
 1. **Exact copy match** — compares every text string in the Figma file against a markdown copy document, flagging any differences (wording, missing strings, extra strings, minor differences like punctuation or capitalisation)
