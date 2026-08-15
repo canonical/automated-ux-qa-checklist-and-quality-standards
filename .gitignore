@@ -7,3 +7,6 @@ google-auth.json
 **/.venv/
 __pycache__/
 *.pyc
+
+# Personal session notes (never pushed)
+NOTES.local.md
