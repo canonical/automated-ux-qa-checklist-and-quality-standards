@@ -7,8 +7,7 @@ One command, no manual virtualenv juggling. This launcher:
      into it — re-installing only when requirements.txt changes.
   2. Re-runs itself with that venv's interpreter, so the copy-doc fetch
      (google-auth / requests) always works.
-  3. Interactively asks for the PR URL and which review(s) to run, then calls
-     run_review.py for you.
+  3. Asks for a PR or Jira ticket URL, then calls the appropriate runner.
 
 Platform-agnostic (Linux / macOS / Windows): pure standard library.
 
@@ -16,6 +15,7 @@ Usage:
     python3 review.py                  # interactive: prompts for everything
     python3 review.py <GITHUB_PR_URL>  # skip prompts, run all stages
     python3 review.py <GITHUB_PR_URL> --demo-only --comment
+    python3 review.py <JIRA_TICKET_URL>  # Figma review from a Jira ticket
 
 Any extra arguments are passed straight through to run_review.py, so every
 flag documented there (--demo-only, --figma-only, --copy-only, --only, --skip,
@@ -34,9 +34,11 @@ REPO_ROOT = Path(__file__).resolve().parent
 VENV_DIR = REPO_ROOT / ".venv"
 REQUIREMENTS = REPO_ROOT / "demo-review" / "scripts" / "requirements.txt"
 RUN_REVIEW = REPO_ROOT / "run_review.py"
+JIRA_REVIEW = REPO_ROOT / "jira_review.py"
 DEPS_MARKER = VENV_DIR / ".deps-installed"
 
 PR_URL_RE = re.compile(r"github\.com/[^/]+/[^/]+/pull/\d+")
+JIRA_URL_RE = re.compile(r"^https://[^/]+/browse/[A-Za-z][A-Za-z0-9_]*-\d+/?(?:\?.*)?$")
 
 STAGE_CHOICES = {
     "1": ("All three stages (default)", []),
@@ -137,14 +139,13 @@ def ask(prompt: str) -> str:
         sys.exit(130)
 
 
-def prompt_pr_url() -> str:
+def prompt_review_url() -> str:
     while True:
-        url = ask("GitHub PR URL: ")
-        if PR_URL_RE.search(url):
+        url = ask("GitHub PR or Jira ticket URL: ")
+        if PR_URL_RE.search(url) or JIRA_URL_RE.fullmatch(url):
             return url
         print(
-            "  That doesn't look like a PR URL "
-            "(expected github.com/{owner}/{repo}/pull/{number}). Try again.\n"
+            "  Enter a GitHub PR URL or a Jira /browse/ISSUE-123 URL.\n"
         )
 
 
@@ -172,15 +173,18 @@ def main() -> int:
 
     args = sys.argv[1:]
 
-    # If a PR URL was supplied on the command line, run non-interactively and
-    # forward every argument to run_review.py unchanged.
+    # Forward a supplied URL and options to the appropriate runner.
+    if any(JIRA_URL_RE.fullmatch(a) for a in args):
+        return subprocess.run([sys.executable, str(JIRA_REVIEW), *args]).returncode
     if any(PR_URL_RE.search(a) for a in args):
         cmd = [sys.executable, str(RUN_REVIEW), *args]
         return subprocess.run(cmd).returncode
 
     # Otherwise, ask nicely.
     print("Automated UX review\n" + "=" * 19)
-    pr_url = prompt_pr_url()
+    pr_url = prompt_review_url()
+    if JIRA_URL_RE.fullmatch(pr_url):
+        return subprocess.run([sys.executable, str(JIRA_REVIEW), pr_url]).returncode
     stage_flags = prompt_stage()
     comment = prompt_comment()
 
