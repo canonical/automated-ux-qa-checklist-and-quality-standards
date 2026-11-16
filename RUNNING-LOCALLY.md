@@ -10,6 +10,86 @@ GitHub Copilot CLI and saves a report per stage. It is platform-agnostic
 
 ---
 
+## Jira-to-Figma pilot
+
+**Experimental personal pilot, not production-ready.** This path is separate
+from the PR review workflow below. It reads a Jira Cloud ticket's fields,
+comments and remote links, asks you to select ambiguous Figma/Google Doc links,
+then compares the selected frame with the document. It records whether you
+confirm that the copy doc has passed stage 1 review; it does not grant approval.
+
+### Create your own private report repository
+
+You need your own private GitHub repository, for example `UX-review-reports`,
+with an initial commit/default branch. Do not send reports to the public
+skills repository. Set the destination before starting the launcher:
+
+```bash
+export UX_REVIEW_REPORT_REPO="YOUR-GITHUB-USERNAME/UX-review-reports"
+python3 review.py "https://your-site.atlassian.net/browse/ABC-123"
+```
+
+In PowerShell, use `$env:UX_REVIEW_REPORT_REPO = "YOUR-GITHUB-USERNAME/UX-review-reports"`.
+You can also run `python3 review.py` and paste the ticket URL at its prompt.
+The runner uploads only the generated report into `figma-reviews/`; it does not
+upload the full copy doc. You may create `copy-docs/` for future use, but this
+pilot does **not** run or privately publish a separate stage 1 copy-doc review.
+The existing PR and standalone review paths keep their existing destinations.
+
+Sign in to `gh` with write access to the private repository. The runner checks
+its visibility before uploading, then posts a clickable, commit-pinned report
+link to Jira. Reviewers need access to the private repository. Confirm your
+organization permits the chosen storage location and audience for internal
+content; "private" alone is not an approval to store it there.
+
+### Connections and execution
+
+- Complete the Python, Copilot, Google Docs and Figma setup below.
+- Share each Google Doc or containing folder as Viewer with your configured
+  Google service account. Browser sign-in does not authenticate the script.
+- Figma needs its own CLI MCP authentication; the Google service account does
+  not grant Figma access. Use a frame URL containing `node-id=`.
+- Configure all three environment variables: `ATLASSIAN_BASE_URL` (HTTPS site
+  origin), `ATLASSIAN_EMAIL` and `ATLASSIAN_API_TOKEN`. The Jira account must
+  read the ticket and add comments. Alternatively, the pilot reads those
+  values from the `jira` server's `env` in `~/.copilot/mcp-config.json`.
+  Environment variables take precedence; do not commit credentials.
+- If your configured Copilot model is unavailable, append `--model auto` to
+  the Jira command to override it for that run only.
+
+The tool asks before running and publishing. Source-fetch failures stop the
+run; temporary exports are removed when the temporary-directory context exits.
+If Jira commenting fails after publication, the report URL is printed for
+manual recovery. Rerunning can create another report and comment.
+
+### Known limitations and pre-merge review
+
+Live pilots needed the working chat Figma connection because the separate CLI
+token had expired. Those reports were produced manually: the unattended
+Jira-to-report-to-comment flow has not passed a live end-to-end test.
+
+Before considering this for main:
+
+- [ ] Demonstrate the complete CLI flow with an agreed test ticket and private
+  destination, including Google service-account access and Figma authentication.
+- [ ] Replace heading-presence validation with reliable completion/coverage
+  checks; headings alone do not prove a complete review.
+- [ ] Verify standard color-coded report output against the existing template.
+- [ ] Review least-privilege tool/credential access and handling of instructions
+  embedded in Jira, Figma and copy-doc content.
+- [ ] Review cleanup on failures, timeouts, retries, concurrent runs and
+  prevention of duplicate uploads/comments.
+- [ ] Agree private-report access and retention, document-version tracking and
+  how the destination is configured and checked.
+- [ ] Decide whether separate copy-doc reviews should also publish privately.
+
+Start developer review with mocked tests, not live tickets or someone else's
+credentials:
+
+```bash
+python3 -m unittest discover -s tests -p 'test_jira_review.py' -v
+```
+
 ## TL;DR
 
 Easiest: use the interactive launcher. It creates a local `.venv`, installs the

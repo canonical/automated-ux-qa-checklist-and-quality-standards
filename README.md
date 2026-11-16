@@ -30,6 +30,9 @@ environment and prompts for the PR URL and which review(s) to run:
 python3 review.py
 ```
 
+For the experimental Jira-to-Figma pilot, including private report repository
+setup and known limitations, see [RUNNING-LOCALLY.md](RUNNING-LOCALLY.md#jira-to-figma-pilot).
+
 ---
 
 ## Skills
