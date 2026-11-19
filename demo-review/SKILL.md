@@ -9,6 +9,10 @@ description: >
 
 # Demo Review Skill
 
+## Prerequisites
+
+- **Figma MCP server must be connected.** When a Figma URL is provided (directly or extracted from a PR body), this skill uses the `figma-get_figma_data` tool for design fidelity checks. If Figma tools are not available and a Figma URL is present, stop and tell the user to connect the Figma MCP server (check `/mcp` or `/env` status) before proceeding.
+
 Performs two checks on a demo or live web page by fetching its content:
 
 1. **UX quality check** — reviews page content against UX best practice checklist
